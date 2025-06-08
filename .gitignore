@@ -67,4 +67,6 @@ packages/**/build
 docs/dev-dist
 **/docs/dev-dist
 .wrangler/**
-packages/web/dev-dist
+packages/web/dev-dist/** 
+docs/guide/** 
+docs/*.md

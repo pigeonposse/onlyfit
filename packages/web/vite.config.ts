@@ -1,4 +1,4 @@
-import { joinUrl }                              from '@dovenv/core/utils'
+/* eslint-disable camelcase */
 import media                                    from '@svaio/media'
 import { setDefaultMediaConfig as mediaConfig } from '@svaio/media/utils'
 import pwa                                      from '@svaio/pwa'
@@ -18,6 +18,8 @@ import { defineConfig } from 'vite'
 
 import pkg from '../../package.json'
 
+const primary = 'rgba(19, 163, 74, 1)'
+
 export default defineConfig( {
 	plugins : [
 		media( {
@@ -26,12 +28,12 @@ export default defineConfig( {
 				title : pkg.extra.productName,
 				desc  : pkg.extra.shortDesc,
 				text  : pkg.extra.action,
-				image : joinUrl( pkg.homepage, 'logo.png' ),
+				image : 'https://github.com/pigeonposse/onlyfit/blob/main/docs/public/logo.png?raw=true',
 				color : {
-					primary   : '#3c579d',
-					secondary : '#4276b5',
-					terciary  : '#347ba4',
-					fourth    : '#33a09a',
+					primary,
+					secondary : 'rgba(151, 202, 59, 1)',
+					terciary  : 'rgba(151, 202, 59, 0.3)',
+					fourth    : '#f8f9fa',
 				},
 			} ) } },
 		} ),
@@ -39,6 +41,10 @@ export default defineConfig( {
 		pwa( pwaConfig( {
 			name        : pkg.extra.productName,
 			description : pkg.extra.shortDesc,
+			manifest    : {
+				theme_color : primary,
+				categories  : [ 'productivity', 'utilities' ],
+			},
 		} ) ),
 		unocss( {
 			presets : [

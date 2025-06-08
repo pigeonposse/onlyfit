@@ -49,7 +49,10 @@ export class Optimize {
 
 		}
 
-		return await zip.generateAsync( { type: 'blob' } )
+		return await zip.generateAsync( {
+			type               : 'blob',
+			compressionOptions : { level: 9 },
+		} )
 
 	}
 

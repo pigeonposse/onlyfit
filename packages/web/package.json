@@ -1,9 +1,43 @@
 {
 	"name": "@onlyfit/web",
 	"version": "0.0.2",
-	"private": true,
 	"description": "Compress your files without losing quality",
+	"keywords": [
+		"pigeonposse",
+		"pp",
+		"web"
+	],
+	"homepage": "https://onlyfit.pigeonposse.com/guide/web",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/onlyfit/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "https",
+		"url": "https://github.com/pigeonposse/onlyfit/",
+		"directory": "packages/web"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/contribute"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Alejo",
+		"email": "alejo@pigeonposse.com",
+		"url": "https://github.com/alejomalia"
+	},
+	"contributors": [
+		{
+			"name": "Angelo",
+			"email": "angelo@pigeonposse.com",
+			"url": "https://github.com/angelespejo"
+		}
+	],
 	"type": "module",
+	"files": [
+		"build"
+	],
 	"scripts": {
 		"build": "vite build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -14,11 +48,10 @@
 		"preview": "vite preview --port 1312"
 	},
 	"dependencies": {
-		"browser-image-compression": "^2.0.2",
-		"fflate": "^0.8.2",
-		"jszip": "^3.10.1",
-		"pdf-lib": "^1.17.1",
-		"svgo": "^3.3.2"
+		"browser-image-compression": "2.0.2",
+		"jszip": "3.10.1",
+		"pdf-lib": "1.17.1",
+		"svgo": "3.3.2"
 	},
 	"devDependencies": {
 		"@svaio/media": "0.0.6",
@@ -30,5 +63,9 @@
 		"@sveltejs/kit": "2.21.2",
 		"svelte": "5.33.17",
 		"svelte-check": "4.2.1"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
 	}
 }

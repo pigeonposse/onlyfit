@@ -4,4 +4,5 @@ export * from './string'
 export * from './download'
 export * from './thumbnail'
 export * from './number'
+export * from './file'
 

@@ -33,10 +33,17 @@
 	},
 	"license": "GPL-3.0",
 	"author": {
-		"name": "Angelo",
-		"email": "angelo@pigeonposse.com",
-		"url": "https://github.com/angelespejo"
+		"name": "Alejo",
+		"email": "alejo@pigeonposse.com",
+		"url": "https://github.com/alejomalia"
 	},
+	"contributors": [
+		{
+			"name": "Angelo",
+			"email": "angelo@pigeonposse.com",
+			"url": "https://github.com/angelespejo"
+		}
+	],
 	"type": "module",
 	"workspaces": [
 		"packages/*"
@@ -74,8 +81,8 @@
 	"extra": {
 		"id": "onlyfit",
 		"productName": "onlyfit",
-		"shortDesc": "SvelteKit All in One Utilities",
-		"action": "Zero-config i18n, PWA, robots.txt, sitemap, and more",
+		"shortDesc": "Compress your files without losing quality",
+		"action": "images, videos, audio, documents, and more formats",
 		"libraryURL": "https://www.npmjs.com/package/onlyfit",
 		"licenseURL": "https://github.com/pigeonposse/dovenv/blob/main/LICENSE",
 		"changelogURL": "https://github.com/pigeonposse/onlyfit/blob/main/packages/core/CHANGELOG.md",
@@ -88,9 +95,7 @@
 			"library",
 			"js-library",
 			"ts-library",
-			"toolkit",
-			"cli",
-			"bin"
+			"web"
 		],
 		"collective": {
 			"id": "pigeonposse",

@@ -1,40 +1,118 @@
-# sv
+# Onlyfit Web Package
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+[![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
+[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)
+[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/contribute)
+[![Twitter](https://img.shields.io/badge/Twitter-black?style=for-the-badge&logoColor=white&logo=twitter)](https://twitter.com/pigeonposse_)
+[![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
+[![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-## Creating a project
+[![BANNER](https://github.com/pigeonposse/onlyfit/blob/main/docs/public/banner.png?raw=true)](https://onlyfit.pigeonposse.com/guide/web)
 
-If you're seeing this, you've probably already done this step. Congrats!
+[![License](https://img.shields.io/github/license/pigeonposse/onlyfit?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
+[![Version](https://img.shields.io/npm/v/onlyfit?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/onlyfit)
+[![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/@onlyfit/web?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/@onlyfit/web)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/@onlyfit/web/0.0.2?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/@onlyfit/web)
 
-```bash
-# create a new project in the current directory
-npx sv create
+Compress your files without losing quality
 
-# create a new project in my-app
-npx sv create my-app
+## Table of contents
+
+- [🔑 Installation](#-installation)
+- [➕ More](#-more)
+- [👨‍💻 Development](#-development)
+- [❤️ Donate](#-donate)
+- [📜 License](#-license)
+- [✨ About us](#-about-us)
+
+
+
+
+## 🔑 Installation
+
+```bash 
+npm install @onlyfit/web
+# or
+pnpm install @onlyfit/web
+# or
+yarn add @onlyfit/web
+# or
+bun add @onlyfit/web
+# or
+deno add @onlyfit/web
 ```
+
+## ➕ More
+
+- 🌐 [Web](https://onlyfit.pigeonposse.com/guide/web)
+
 
 ---
 
-## Developing
+## 👨‍💻 Development
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+__onlyfit__ is an open-source project and its development is open to anyone who wants to participate.
 
-```bash
-npm run dev
+[![Issues](https://img.shields.io/badge/Issues-grey?style=for-the-badge)](https://github.com/pigeonposse/onlyfit/issues)
+[![Pull requests](https://img.shields.io/badge/Pulls-grey?style=for-the-badge)](https://github.com/pigeonposse/onlyfit/pulls)
+[![Read more](https://img.shields.io/badge/Read%20more-grey?style=for-the-badge)](https://onlyf.it)
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+## ❤️ Donate
 
-## Building
+Help us to develop more interesting things.
 
-To create a production version of your app:
+[![Donate](https://img.shields.io/badge/Donate-grey?style=for-the-badge)](https://pigeonposse.com/contribute)
 
-```bash
-npm run build
-```
+## 📜 License
 
-You can preview the production build with `npm run preview`.
+This software is licensed with __[GPL-3.0](https://github.com/pigeonposse/dovenv/blob/main/LICENSE)__.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+[![Read more](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse/dovenv/blob/main/LICENSE)
+
+## ✨ About us
+
+*PigeonPosse* is a __code development collective__ focused on creating practical and interesting tools that help developers and users enjoy a more agile and comfortable experience. Our projects cover various programming sectors and we do not have a thematic limitation in terms of projects.
+
+[![More](https://img.shields.io/badge/Read-more-grey?style=for-the-badge)](https://github.com/pigeonposse)
+
+
+## Contributors
+
+|   | Name | Role |
+| ----- | ---- | ---- |
+| ![Angelo](https://github.com/angelespejo.png?size=72) | [Angelo](https://github.com/angelespejo) |  |
+| ![Alejo](https://github.com/alejomalia.png?size=72) | [Alejo](https://github.com/alejomalia) | 👑 Author |
+| ![PigeonPosse](https://github.com/pigeonposse.png?size=72) | [PigeonPosse](https://github.com/pigeonposse) | 🏢 Organization |
+
+---
+
+[![Web](https://img.shields.io/badge/Web-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com)
+[![About Us](https://img.shields.io/badge/About%20Us-grey?style=for-the-badge&logoColor=white)](https://pigeonposse.com/about)
+[![Donate](https://img.shields.io/badge/Donate-pink?style=for-the-badge&logoColor=white)](https://pigeonposse.com/contribute)
+[![Twitter](https://img.shields.io/badge/Twitter-black?style=for-the-badge&logoColor=white&logo=twitter)](https://twitter.com/pigeonposse_)
+[![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
+[![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
+
+<!--
+
+██████╗ ██╗ ██████╗ ███████╗ ██████╗ ███╗   ██╗██████╗  ██████╗ ███████╗███████╗███████╗
+██╔══██╗██║██╔════╝ ██╔════╝██╔═══██╗████╗  ██║██╔══██╗██╔═══██╗██╔════╝██╔════╝██╔════╝
+██████╔╝██║██║  ███╗█████╗  ██║   ██║██╔██╗ ██║██████╔╝██║   ██║███████╗███████╗█████╗  
+██╔═══╝ ██║██║   ██║██╔══╝  ██║   ██║██║╚██╗██║██╔═══╝ ██║   ██║╚════██║╚════██║██╔══╝  
+██║     ██║╚██████╔╝███████╗╚██████╔╝██║ ╚████║██║     ╚██████╔╝███████║███████║███████╗
+╚═╝     ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝╚═╝      ╚═════╝ ╚══════╝╚══════╝╚══════╝
+█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗█████╗                                  
+╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝╚════╝                                  
+ ██████╗ ███╗   ██╗██╗  ██╗   ██╗███████╗██╗████████╗                                   
+██╔═══██╗████╗  ██║██║  ╚██╗ ██╔╝██╔════╝██║╚══██╔══╝                                   
+██║   ██║██╔██╗ ██║██║   ╚████╔╝ █████╗  ██║   ██║                                      
+██║   ██║██║╚██╗██║██║    ╚██╔╝  ██╔══╝  ██║   ██║                                      
+╚██████╔╝██║ ╚████║███████╗██║   ██║     ██║   ██║                                      
+ ╚═════╝ ╚═╝  ╚═══╝╚══════╝╚═╝   ╚═╝     ╚═╝   ╚═╝                                      
+
+- Author: [Alejo](https://github.com/alejomalia)
+ - Contributors: [Angelo](https://github.com/angelespejo)
+
+
+-->
+

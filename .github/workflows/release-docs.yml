@@ -10,9 +10,9 @@ on:
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 env:
     GITHUB_TOKEN: ${{ github.token }}
-    DOCS_ID: 'svaio'
-    DOCS_DIR: 'build/docs'
-    BUILD_CMD: 'pnpm build && pnpm . predocs && pnpm . docs build'
+    DOCS_ID: 'onlyfit'
+    DOCS_DIR: 'packages/web/build'
+    BUILD_CMD: 'pnpm build'
 
 ###############################################################################
 # JOBS
