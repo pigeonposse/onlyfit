@@ -1,0 +1,70 @@
+.toaster {
+	position: fixed;
+	top: 0;           
+	right: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.5rem;        
+	z-index: 999999;
+	max-height: calc(100vmin - 20px - 1rem);   
+	overflow-x: hidden;
+	overflow-y: scroll;   
+	padding: 1rem 1rem 20px 20px;
+
+	-ms-overflow-style: none; 
+	scrollbar-width: none; 
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
+.toaster.hidden {
+	display: none !important;
+}
+.toaster > div {
+	display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 250px;
+}
+
+.toaster > div .notification {
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	position: relative;
+	gap: 0.5rem;
+	border-radius: var(--radius);
+	background: var(--bg-color-3);
+	box-shadow: var(--container-shadow);
+	font-size: 0.75rem; 
+}
+
+.toaster > div .notification .notification__content p {
+	margin: 0;
+	text-wrap: pretty;
+	text-wrap-mode: wrap;
+	word-break: break-word; 
+}
+
+.toaster > div .notification .notification__icon {
+	font-size: 1.25rem; 
+	width: 20px;
+    height: 20px;
+    min-height: 20px;
+    min-width: 20px;
+}
+
+.notification.error .notification__icon {
+	color: var(--error-color); 
+}
+.notification.success .notification__icon {
+	color: var(--theme-color); 
+}
+.notification.warn .notification__icon {
+	color: var(--warn-color); 
+}
+.notification.info .notification__icon {
+	color: var(--info-color); 
+}

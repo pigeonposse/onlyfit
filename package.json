@@ -1,0 +1,116 @@
+{
+	"name": "onlyfit-monorepo",
+	"private": true,
+	"description": "Compress your files without losing quality",
+	"keywords": [
+		"audio",
+		"compress-files",
+		"documents",
+		"images",
+		"jpeg",
+		"optimize",
+		"pigeonposse",
+		"png",
+		"pp",
+		"sv",
+		"svelte",
+		"sveltekit",
+		"toolkit",
+		"video"
+	],
+	"homepage": "https://onlyf.it",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/onlyfit/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/pigeonposse/onlyfit.git"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/contribute"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"+": "run() { pnpm -F @*/\"${@:1}\"; }; run $@",
+		"++": "pnpm -F $@",
+		".": "dovenv",
+		"lint:commit": "dovenv lint commitlint",
+		"lint:eslint": "dovenv lint eslint",
+		"lint:pkg": "dovenv lint custom -k pkg",
+		"lint:staged": "dovenv lint staged --silent",
+		"prepare": "dovenv git husky --silent",
+		"test": "pnpm run --sequential \"/test:.*/\"",
+		"test:check": "pnpm -F '*onlyfit*' run check",
+		"test:check-ws": "dovenv check --silent",
+		"test:pkg": "pnpm --parallel test",
+		"test:transform-ws": "dovenv transform --silent"
+	},
+	"devDependencies": {
+		"@changesets/changelog-github": "0.5.1",
+		"@dovenv/core": "1.5.31",
+		"@dovenv/theme-pigeonposse": "1.5.31",
+		"@types/node": "22.15.29",
+		"eslint": "9.28.0",
+		"typescript": "5.8.3",
+		"unbuild": "3.5.0",
+		"vite": "6.3.5"
+	},
+	"packageManager": "pnpm@10.11.1",
+	"engines": {
+		"node": ">=22.0.0",
+		"pnpm": ">=8.10.0"
+	},
+	"extra": {
+		"id": "onlyfit",
+		"productName": "onlyfit",
+		"shortDesc": "SvelteKit All in One Utilities",
+		"action": "Zero-config i18n, PWA, robots.txt, sitemap, and more",
+		"libraryURL": "https://www.npmjs.com/package/onlyfit",
+		"licenseURL": "https://github.com/pigeonposse/dovenv/blob/main/LICENSE",
+		"changelogURL": "https://github.com/pigeonposse/onlyfit/blob/main/packages/core/CHANGELOG.md",
+		"contributingURL": "https://github.com/pigeonposse/.github/blob/main/CONTRIBUTING.md",
+		"libraryID": "onlyfit",
+		"repoID": "onlyfit",
+		"rawRepoURL": "https://raw.githubusercontent.com/pigeonposse/onlyfit",
+		"docsURL": "https://onlyfit.pigeonposse.com",
+		"type": [
+			"library",
+			"js-library",
+			"ts-library",
+			"toolkit",
+			"cli",
+			"bin"
+		],
+		"collective": {
+			"id": "pigeonposse",
+			"name": "PigeonPosse",
+			"funding": "https://pigeonposse.com/contribute",
+			"gh": "https://github.com/pigeonposse",
+			"about": "https://pigeonposse.com/about",
+			"url": "https://pigeonposse.com",
+			"web": "https://pigeonposse.com",
+			"email": "dev@pigeonposse.com",
+			"socialUser": {
+				"twitter": "pigeonposse_",
+				"instagram": "pigeon.posse",
+				"medium": "pigeonposse"
+			},
+			"social": {
+				"twitter": "https://twitter.com/pigeonposse_",
+				"instagram": "https://www.instagram.com/pigeon.posse/",
+				"medium": "https://medium.com/@pigeonposse"
+			}
+		}
+	}
+}
