@@ -52,6 +52,7 @@
 		"+": "run() { pnpm -F @*/\"${@:1}\"; }; run $@",
 		"++": "pnpm -F $@",
 		".": "dovenv",
+		"build": "pnpm + web build",
 		"lint:commit": "dovenv lint commitlint",
 		"lint:eslint": "dovenv lint eslint",
 		"lint:pkg": "dovenv lint custom -k pkg",
