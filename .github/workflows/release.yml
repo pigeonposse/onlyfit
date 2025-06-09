@@ -2,7 +2,7 @@
 # RELEASE DOCS
 ###############################################################################
 
-name: 🚀📚 Release Documentation
+name: 🚀📚 Release Webs
 
 on:
   workflow_dispatch:
