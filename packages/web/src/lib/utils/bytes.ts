@@ -22,6 +22,9 @@ export type SizeData = {
 	megabytes : number
 	gigabytes : number
 	terabytes : number
+	/*+
+	 * The formatted size string
+	 */
 	format    : string
 }
 

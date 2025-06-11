@@ -1,0 +1,15 @@
+.error-page {
+	@apply flex justify-center items-center flex-col gap-4;
+	.content {
+		@apply my-8 mx-auto flex justify-center items-center flex-col;
+	}
+}
+h1 {
+	color: var(--text-color-2);
+	text-align: center;
+	@apply text-2xl;
+}
+
+.error-code {
+	@apply text-9xl font-extrabold
+}

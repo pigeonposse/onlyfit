@@ -67,7 +67,7 @@
 		"@changesets/changelog-github": "0.5.1",
 		"@dovenv/core": "1.5.31",
 		"@dovenv/theme-pigeonposse": "1.5.31",
-		"@types/node": "22.15.30",
+		"@types/node": "24.0.0",
 		"eslint": "9.28.0",
 		"typescript": "5.8.3",
 		"unbuild": "3.5.0",
@@ -80,7 +80,7 @@
 	},
 	"extra": {
 		"id": "onlyfit",
-		"productName": "onlyfit",
+		"productName": "Onlyfit",
 		"shortDesc": "Compress your files without losing quality",
 		"action": "images, videos, audio, documents, and more formats",
 		"libraryURL": "https://www.npmjs.com/package/onlyfit",

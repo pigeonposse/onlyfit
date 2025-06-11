@@ -8,12 +8,13 @@ class UserState {
 	compression
 	download
 	notification
-
+	showExtra
 	constructor() {
 
 		this.notification = notifications
 		this.compression  = new CompressionState( { notifications: notifications } )
 		this.download     = new DownloadState( { notifications: notifications } )
+		this.showExtra    = $state( false )
 
 	}
 

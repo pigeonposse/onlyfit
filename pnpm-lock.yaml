@@ -43,7 +43,7 @@ importers:
         specifier: 2.0.2
         version: 2.0.2
       fflate:
-        specifier: ^0.8.2
+        specifier: 0.8.2
         version: 0.8.2
       jszip:
         specifier: 3.10.1

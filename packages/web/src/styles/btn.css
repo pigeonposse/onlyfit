@@ -12,7 +12,7 @@
 	display: flex;
     align-content: center;
     align-items: center;
-    justify-content: space-around;
+	justify-content: center;
     flex-direction: row;
     gap: 7px;
 	padding: 0.8rem 1.5rem;
@@ -28,6 +28,12 @@
 }
 .btn.fit {
 	padding: 0;
+}
+.btn.transparent {
+	padding: 0;
+	box-shadow: none !important;
+	background: transparent;
+	color: var(--text-color);
 }
 .btn.small {
 	padding: 0.4rem 0.6rem;
@@ -74,4 +80,20 @@
 	--btn-shadow-color: var(--warn-shadow-color);
 	background: var(--warn-color);
 	color: var(--warn-bg-color);
+}
+
+.link {
+	color: var(--text-color);
+	text-decoration: none;
+	font-weight: 500;
+	transition: all 0.3s ease;
+	padding: 0;
+	border-radius: var(--radius);
+}
+
+.link:hover, 
+.link:focus-visible {
+	color: var(--theme-color);
+	padding: 0.2rem 0.5rem;
+	background: var(--theme-bg-color);
 }

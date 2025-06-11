@@ -3,6 +3,14 @@
 	padding: 0;
 	box-sizing: border-box;
 }
+@font-face {
+	font-family: pigeonposse;
+	font-style: normal;
+	font-weight: 200 700;
+	font-display: swap;
+	src: url("/font/pigeonposse.woff2");
+}
+
 :root {
 	--theme-color: rgba(19, 163, 74, 1);
 	--theme-bg-color: rgba(19, 163, 74, 0.3);
@@ -47,6 +55,15 @@
 	outline: 2px dashed var(--theme-color);
 }
 
+a {
+	color: initial;
+	text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: pigeonposse;
+}
+
 body {
 	min-height: 100vh;
 	display: flex;
@@ -77,7 +94,7 @@ ul {
 	border-radius: calc(var(--radius) * 2);
 	box-shadow: var(--container-shadow);
 	position: relative;
-	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	transition: transform 0.3s ease, box-shadow 0.3s ease, height 0.5s ease;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -89,12 +106,31 @@ ul {
 	box-shadow: var(--container-shadow-hover);
 }
 
-.brand {
-    max-width: 200px;
-    width: 100%;
-	display: block;
-	margin: 0 auto;
+header {
+	font-size: 45px;
+	font-weight: 900;
+	@apply flex items-center gap-4 justify-center;
+	.brand {
+		max-width: 60px;
+		width: 60px;
+		display: block;
+	}
+	span {
+		letter-spacing: -4px;
+		font-family: 'pigeonposse';
+		margin-bottom: -4px
+	}
+	.subtitle {
+		font-size: 20px;
+		letter-spacing: 0px;
+		margin: 0px;
+		color: var(--theme-color);
+		background: var(--theme-bg-color);
+		border-radius: var(--radius);
+		padding: 5px 20px;
+	}
 }
+
 
 .stats-container {
 	background: var(--bg-color-3);
@@ -257,6 +293,47 @@ ul {
 	gap: 1rem;
 	position: relative;
 }
+.footer-btns {
+	margin-top: -20px;
+	margin-bottom: 20px;
+}
+.compression {
+    .bar {
+        display: none;
+        padding: 3px;
+        border-radius: 20px;
+        width: 100%;
+        margin: 0 auto;
+        transition: visibility 0.5s ease-out, opacity 0.5s ease-out; /* Add transition for bar */
+    }
+    .content {
+        display: flex;
+        max-height: 500px;
+        opacity: 1;
+        overflow: hidden;
+        transform: translateY(0);
+        transition: all 0.5s ease-in-out;
+    }
+    &.active {
+        .bar {
+           display: flex;
+        }
+        .content {
+            max-height: 0;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        &:hover {
+            .content {
+                display: flex;
+                max-height: 100%;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    }
+}
 
 .formats li {
 	display: flex;
@@ -313,43 +390,36 @@ ul {
 	font-size: 0.9rem;
 }
 
-.footer a {
-	color: var(--text-color);
-	text-decoration: none;
-	font-weight: 500;
-	transition: all 0.3s ease;
-	padding: 0.2rem 0.5rem;
-	border-radius: var(--radius);
-}
+/** SPINNER */
 
-.footer a:hover, 
-.footer a:focus-visible {
-	color: var(--theme-color);
-	background: var(--theme-bg-color);
-}
 .spinner {
 	margin: auto;
 	animation: spinner_transition 1s linear infinite;
 }
+@keyframes spinner_transition {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/** HEART */
 .heart {
 	color: var(--error-color);
 	display: inline-block;
 	margin: 0 0.2rem;
+	transition: all 0.5s ease;
 	animation: heartbeat 1.5s ease infinite;
 }
-@keyframes spinner_transition {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+.heart:hover {
+	background: var(--error-bg-color);
+    padding: 3px 4px;
+    border-radius: 100%;
 }
 @keyframes heartbeat {
 	0%, 100% { transform: scale(1); }
 	50% { transform: scale(1.2); }
 }
 
-@keyframes spin {
-	to { transform: rotate(360deg); }
-}
-
+/** MEDIA */
 @media (max-width: 768px) {
 	.formats, .stats  {
 		grid-template-columns: repeat(2, 1fr);

@@ -18,8 +18,10 @@ import { defineConfig } from 'vite'
 
 import pkg from '../../package.json'
 
-const primary = 'rgba(19, 163, 74, 1)'
-
+const primary   = 'rgba(19, 163, 74, 1)'
+const secondary = 'rgba(151, 202, 59, 1)'
+const terciary  = 'rgba(151, 202, 59, 0.3)'
+const fourth    = '#f8f9fa'
 export default defineConfig( {
 	plugins : [
 		media( {
@@ -31,9 +33,9 @@ export default defineConfig( {
 				image : 'https://github.com/pigeonposse/onlyfit/blob/main/docs/public/logo.png?raw=true',
 				color : {
 					primary,
-					secondary : 'rgba(151, 202, 59, 1)',
-					terciary  : 'rgba(151, 202, 59, 0.3)',
-					fourth    : '#f8f9fa',
+					secondary,
+					terciary,
+					fourth,
 				},
 			} ) } },
 		} ),
@@ -42,8 +44,9 @@ export default defineConfig( {
 			name        : pkg.extra.productName,
 			description : pkg.extra.shortDesc,
 			manifest    : {
-				theme_color : primary,
-				categories  : [ 'productivity', 'utilities' ],
+				theme_color      : primary,
+				background_color : fourth,
+				categories       : [ 'productivity', 'utilities' ],
 			},
 		} ) ),
 		unocss( {

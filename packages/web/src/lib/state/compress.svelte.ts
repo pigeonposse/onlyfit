@@ -1,6 +1,9 @@
 import { SvelteMap } from 'svelte/reactivity'
 
-import { COMPRESSION_FILE } from './const'
+import {
+	ALLOWED_TYPES_SET,
+	COMPRESSION_FILE,
+} from './const'
 import {
 	SharedState,
 	type SharedStateProps,
@@ -10,7 +13,9 @@ import type { FileInput } from '$utils'
 
 import {
 	Optimize,
+	getFileIcon,
 	getSizeData,
+	getThumbnailFromFile,
 	per100,
 } from '$utils'
 
@@ -35,16 +40,25 @@ export class CompressionState extends SharedState {
 			const filesSize       = files.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
 			const compressedSize  = compressed.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
 			const compressedTotal = filesSize - compressedSize
-			const total           = `${per100( compressedSize, filesSize )}%`
+			const total           = `${per100( compressedTotal, filesSize )}%`
 			// console.log( {
 			// 	_files : this.#files,
 			// 	files,
 			// } )
+
 			const res = {
 				files : [ ...files ].map( d => {
 
 					const compressed = this.#compressed.get( d.name )
 					return {
+						/**
+						 * Icon class like: i-fa6-solid:file
+						 */
+						icon       : getFileIcon( d ),
+						/**
+						 * Whether compression is allowed
+						 */
+						allowed    : ALLOWED_TYPES_SET.has( d.type ),
 						compressed : compressed
 							? {
 								file  : compressed,
@@ -55,6 +69,9 @@ export class CompressionState extends SharedState {
 								},
 							}
 							: undefined,
+						/**
+						 * Original file
+						 */
 						file : d,
 						size : getSizeData( d.size ),
 					}
@@ -188,6 +205,16 @@ export class CompressionState extends SharedState {
 
 		}
 		return await this._run( 'Error compressing file(s)', fn( ) )
+
+	}
+
+	#thumbs = new Map<string, string | undefined>( )
+
+	async getThumbnail( file: File ) {
+
+		if ( !this.output ) this.#thumbs.clear()
+		if ( !this.#thumbs.has( file.name ) ) this.#thumbs.set( file.name, await getThumbnailFromFile( file ) )
+		return this.#thumbs.get( file.name )
 
 	}
 

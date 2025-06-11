@@ -7,10 +7,6 @@
 		Button,
 		Dropzone,
 	} from '$components'
-	import {
-		getFileIcon,
-		getThumbnailFromFile,
-	} from '$utils'
 
 	let dropzoneInput: HTMLInputElement
 
@@ -62,7 +58,7 @@
 				<li class={[ 'file-item', value.compressed ? 'compressed' : undefined ]}>
 					<div class="file-info">
 						<div>
-							{#await getThumbnailFromFile( value.file )}
+							{#await userState.compression.getThumbnail( value.file )}
 								<object title="Preview: {value.file.name}">
 									<span class={[ ICON.LOAD, 'spinner' ]}></span>
 								</object>
@@ -71,7 +67,7 @@
 									data={image}
 									title="Preview: {value.file.name}"
 								>
-									<span class={getFileIcon( value.file )}></span>
+									<span class={value.icon}></span>
 								</object>
 							{/await}
 						</div>
@@ -85,15 +81,13 @@
 						</div>
 					</div>
 					<div class="btn-group">
-
 						<Button
 							class="small"
-							aria-label="Compress"
-							disabled={value.compressed ? true : false}
+							aria-label={!value.allowed ? 'Compression not allowed' : 'Compress'}
+							disabled={!value.allowed ? true : false}
 							icon={ICON.COMPRESS}
 							onclick={() => userState.compression.executeOne( value.file )}
 						/>
-
 						<Button
 							class="secondary small"
 							aria-label="Download"
@@ -117,20 +111,20 @@
 	{/if}
 
 	<section class="btn-group">
-
-		<Button
-			class="dark"
-			aria-label="Reset"
-			icon={ICON.RESET}
-			onclick={() => userState.compression.reset()}
-		/>
-		<Button
-			class="dark"
-			aria-label="Add more files"
-			icon={ICON.MORE}
-			onclick={() => dropzoneInput.click()}
-		/>
-
+		<div>
+			<Button
+				class="dark"
+				aria-label="Reset"
+				icon={ICON.RESET}
+				onclick={() => userState.compression.reset()}
+			/>
+			<Button
+				class="dark"
+				aria-label="Add more files"
+				icon={ICON.MORE}
+				onclick={() => dropzoneInput.click()}
+			/>
+		</div>
 		{#if userState.compression.output}
 			<Button
 				class="secondary"
