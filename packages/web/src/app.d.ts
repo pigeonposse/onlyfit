@@ -12,6 +12,7 @@ declare global {
 		// interface Platform {}
 	}
 	const PKG: typeof import( '../../../package.json' )
+	const APP_PKG: typeof import( './package.json' )
 }
 
 export {}

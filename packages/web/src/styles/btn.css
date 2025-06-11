@@ -90,7 +90,11 @@
 	padding: 0;
 	border-radius: var(--radius);
 }
-
+.link.active {
+	color: var(--theme-color);
+	pointer-events: none;
+	opacity: 0.6;
+}
 .link:hover, 
 .link:focus-visible {
 	color: var(--theme-color);

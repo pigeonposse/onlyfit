@@ -15,7 +15,7 @@
 .modal-content {
     background-color: var(--bg-color);
     padding: 25px;
-    border-radius: 8px;
+    border-radius: calc(var(--radius) * 2);
     box-shadow: 0 5px 15px var(--shadow-color);
     width: 90%;
     max-width: 500px;
@@ -42,7 +42,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid #eee;
     padding-bottom: 15px;
     margin-bottom: 15px;
   }
@@ -72,7 +71,6 @@
   }
 
   .modal-footer {
-    border-top: 1px solid #eee;
     padding-top: 15px;
     margin-top: 15px;
     display: flex;

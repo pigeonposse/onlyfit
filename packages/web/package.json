@@ -39,13 +39,14 @@
 		"build"
 	],
 	"scripts": {
-		"build": "CLOUDFLARE=true vite build",
+		"build": "vite build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"dev": "vite dev",
 		"perf": "pnpx unlighthouse --site http:/localhpost:1312",
 		"prepare": "svelte-kit sync || echo ''",
-		"preview": "vite preview --port 1312"
+		"preview": "vite preview --port 1312",
+		"serve": "pnpx serve build"
 	},
 	"dependencies": {
 		"browser-image-compression": "2.0.2",

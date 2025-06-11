@@ -1,8 +1,12 @@
-import imageCompression from 'browser-image-compression'
+import type { Options } from 'browser-image-compression'
 
-export type ImageOptions = Parameters<typeof imageCompression>[1] & { rename?: boolean }
+import { LazyLoader } from '$utils/_super/loader'
+
+export type ImageOptions = Options & { rename?: boolean }
 
 export type GifOptions = { rename?: boolean }
+
+const loader = new LazyLoader( { imageCompression: async () => ( ( await import( 'browser-image-compression' ) ).default ) } )
 
 export const optimizeImage = async (
 	file: File,
@@ -12,7 +16,8 @@ export const optimizeImage = async (
 	if ( !file.type.startsWith( 'image/' ) || file.type === 'image/gif' )
 		throw new Error( 'Only non-GIF image types are supported in compressImage' )
 
-	const compressedBlob = await imageCompression( file, {
+	const imageCompression = await loader.get( 'imageCompression' )
+	const compressedBlob   = await imageCompression( file, {
 		useWebWorker : true,
 		...( opts || {} ),
 	} )

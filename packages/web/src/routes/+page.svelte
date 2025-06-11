@@ -1,5 +1,7 @@
 <script lang="ts">
 
+	import { JsonLd } from '@svaio/meta/svelte'
+
 	import { ICON } from '$lib/icons'
 	import { userState } from '$lib/state/index.svelte'
 
@@ -8,9 +10,13 @@
 		Dropzone,
 	} from '$components'
 
-	let dropzoneInput: HTMLInputElement
+	let { data }                                    = $props()
+	let dropzoneInput: HTMLInputElement | undefined = $state( undefined )
 
 </script>
+
+<!-- JSON-LD: This squema is designed for the home page or main entry point of the app. -->
+<JsonLd {...data.jsonld} />
 
 <!-- {#if userState.compression.data.files.length <= 0} -->
 <Dropzone
@@ -122,7 +128,7 @@
 				class="dark"
 				aria-label="Add more files"
 				icon={ICON.MORE}
-				onclick={() => dropzoneInput.click()}
+				onclick={() => dropzoneInput?.click()}
 			/>
 		</div>
 		{#if userState.compression.output}

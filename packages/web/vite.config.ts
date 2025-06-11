@@ -4,7 +4,6 @@ import { setDefaultMediaConfig as mediaConfig } from '@svaio/media/utils'
 import pwa                                      from '@svaio/pwa'
 import { setDefaultConfig as pwaConfig }        from '@svaio/pwa/utils'
 import sitemap                                  from '@svaio/sitemap'
-import { setDefaultConfig as sitemapConfig }    from '@svaio/sitemap/utils'
 import unocss                                   from '@svaio/unocss'
 import {
 	presetWind3,
@@ -16,12 +15,15 @@ import {
 import { sveltekit }    from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 
-import pkg from '../../package.json'
+import pkgApp     from './package.json'
+import pkg        from '../../package.json'
+import { ROUTES } from './src/routes/const'
 
 const primary   = 'rgba(19, 163, 74, 1)'
 const secondary = 'rgba(151, 202, 59, 1)'
 const terciary  = 'rgba(151, 202, 59, 0.3)'
 const fourth    = '#f8f9fa'
+
 export default defineConfig( {
 	plugins : [
 		media( {
@@ -39,16 +41,6 @@ export default defineConfig( {
 				},
 			} ) } },
 		} ),
-		sitemap( sitemapConfig( { hostname: pkg.homepage } ) ),
-		pwa( pwaConfig( {
-			name        : pkg.extra.productName,
-			description : pkg.extra.shortDesc,
-			manifest    : {
-				theme_color      : primary,
-				background_color : fourth,
-				categories       : [ 'productivity', 'utilities' ],
-			},
-		} ) ),
 		unocss( {
 			presets : [
 				presetWind3(),
@@ -67,6 +59,33 @@ export default defineConfig( {
 
 		} ),
 		sveltekit(),
+		pwa( pwaConfig( {
+			name        : pkg.extra.productName,
+			description : pkg.extra.shortDesc,
+			manifest    : {
+				theme_color      : primary,
+				background_color : fourth,
+				categories       : [ 'productivity', 'utilities' ],
+			},
+		} ) ),
+		sitemap( {
+			hostname      : pkg.homepage,
+			outDir        : './build',
+			dynamicRoutes : ROUTES,
+			robots        : [
+				{
+					userAgent : '*',
+					allow     : '/',
+				},
+			],
+			i18n : {
+				defaultLanguage : 'en',
+				languages       : [ 'en' ],
+			},
+		} ),
 	],
-	define : { PKG: pkg },
+	define : {
+		PKG     : pkg,
+		APP_PKG : pkgApp,
+	},
 } )

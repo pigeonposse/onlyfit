@@ -1,13 +1,16 @@
 <script lang="ts">
 
-	import { Seo } from '@svaio/meta/svelte'
+	import {
+		MetaTags,
+		deepMerge,
+	} from '@svaio/meta/svelte'
 	import { pwaAssetsHead } from 'virtual:pwa-assets/head'
 	import { pwaInfo } from 'virtual:pwa-info'
 
 	import '../styles'
+	import { COMPRESS_ID } from './const'
 	import { page } from '$app/state'
 	import { ICON } from '$lib/icons'
-	import { COMPRESS_TYPE } from '$lib/state/const'
 
 	import { userState } from '$appstate'
 	import {
@@ -19,13 +22,6 @@
 	let { children } = $props()
 
 </script>
-
-<Seo
-	meta={{
-		title       : `${PKG.extra.productName} - ${PKG.extra.shortDesc}`,
-		description : PKG.extra.shortDesc,
-	}}
-/>
 
 <svelte:head>
 	{@html pwaInfo ? pwaInfo.webManifest.linkTag : ''}
@@ -40,9 +36,10 @@
 	{/each}
 </svelte:head>
 
+<MetaTags {...deepMerge( page.data.metaAll, page.data.meta )} />
+
 <main class="container">
 	<header>
-
 		{#if page.data.type}
 			<a href="/">
 				<img
@@ -68,7 +65,8 @@
 	<article>
 		{@render children()}
 	</article>
-	<section class={[ 'compression', userState.compression.data.files.length ? 'active' : '' ]}>
+
+	<section class={[ 'compression', userState.compression.data.files.length || page.error ? 'active' : '' ]}>
 		<div class="bar"></div>
 		<div class="content">
 			<ul class="formats">
@@ -111,19 +109,25 @@
 	/>
 </section>
 
+{#snippet compressLink( name: string, path: string )}
+	<a
+		class={[ 'link !p-2', page.url.pathname === path ? 'active' : '' ]}
+		href={path}
+	>
+		Compress <b>{name}</b>
+	</a>
+{/snippet}
+
 <Modal bind:show={userState.showExtra}>
 	<h3 class="text-center my-4">More Tools</h3>
 	<ul class="stats !flex flex-col p-2">
-		{#each COMPRESS_TYPE as type}
+		<li>
+			{@render compressLink( 'All', '/' )}
+		</li>
+		{#each COMPRESS_ID as type}
 			<li>
-				<a
-					class="link !p-2"
-					href={`/compress/${type}`}
-				>
-					Compress <b>{type}</b>
-				</a>
+				{@render compressLink( type, `/compress/${type}` )}
 			</li>
-
 		{/each}
 	</ul>
 </Modal>

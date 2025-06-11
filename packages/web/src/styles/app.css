@@ -58,7 +58,10 @@
 :focus-visible {
 	outline: 2px dashed var(--theme-color);
 }
-
+button {
+	border: none;
+	background: transparent;
+}
 a {
 	color: initial;
 	text-decoration: none;
@@ -338,7 +341,9 @@ header {
         }
     }
 }
-
+.formats {
+	width: 100%;
+}
 .formats li {
 	display: flex;
 	flex-direction: column;

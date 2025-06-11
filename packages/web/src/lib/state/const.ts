@@ -64,25 +64,6 @@ const setCurrentDate = () => {
 
 }
 
-export const COMPRESS_TYPES = {
-	audio : 'audio',
-
-	image : 'image',
-	jpeg  : 'jpeg',
-	jpg   : 'jpg',
-	png   : 'png',
-	webp  : 'webp',
-	gif   : 'gif',
-
-	svg : 'svg',
-
-	pdf : 'pdf',
-
-	zip : 'zip',
-
-	video : 'video',
-}
-export const COMPRESS_TYPE = Object.keys( COMPRESS_TYPES )
 export const COMPRESSION_FILE = () => `# ${PKG.extra.id} - Compression
 
 _Compressed archive generated automatically._

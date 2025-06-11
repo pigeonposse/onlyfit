@@ -1,34 +1,41 @@
 <script lang="ts">
 
 	import '../styles/error.css'
+	import { goto } from '$app/navigation'
+	import { page } from '$app/state'
 	import { ICON } from '$lib/icons'
+
+	import { userState } from '$appstate'
+	import { Button } from '$components'
 
 </script>
 
 <section class="error-page">
 
 	<div class="content">
-		<h1>We're sorry, that page no longer exists.</h1>
-		<span class="error-code">404</span>
+		{#if page.status === 404}
+			<h1>We're sorry, that page no longer exists.</h1>
+			<span class="error-code">404</span>
+		{:else}
+			<h1>Something went wrong.</h1>
+			<span class="error-code">{page.status}</span>
+		{/if}
 	</div>
 
 	<div class="btn-group">
 
-		<a
+		<Button
 			class="btn small"
-			href="/"
-		>
-			<span class={ICON.HOME}></span>
-			<span>Go to home</span>
-
-		</a>
-		<a
+			icon={ICON.HOME}
+			onclick={() => goto( '/' )}
+			text="Go to home"
+		/>
+		<Button
 			class="btn secondary small"
-			href="/"
-		>
-			<span class={ICON.COMPRESS}></span>
-			<span>Compress files</span>
-		</a>
+			icon={ICON.COMPRESS}
+			onclick={() => userState.showExtra = true}
+			text="Compress files"
+		/>
 	</div>
 
 </section>
