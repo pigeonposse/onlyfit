@@ -7,6 +7,7 @@ const config = {
 		adapter : adapter( {
 			strict      : true,
 			precompress : true,
+			fallback    : '202.html',
 		} ),
 		alias : {
 			$utils      : './src/lib/utils',

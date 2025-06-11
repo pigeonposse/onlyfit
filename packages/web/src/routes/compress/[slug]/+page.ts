@@ -6,3 +6,4 @@ export const load = ( { params } ) => {
 	return { type: params.slug }
 
 }
+

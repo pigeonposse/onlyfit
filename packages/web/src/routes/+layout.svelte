@@ -116,7 +116,6 @@
 	<ul class="stats !flex flex-col p-2">
 		{#each COMPRESS_TYPE as type}
 			<li>
-
 				<a
 					class="link !p-2"
 					href={`/compress/${type}`}

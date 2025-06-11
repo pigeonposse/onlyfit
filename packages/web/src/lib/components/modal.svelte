@@ -1,4 +1,5 @@
 <script lang="ts">
+
 	import {
 		type Snippet,
 		createEventDispatcher,
@@ -127,6 +128,8 @@
 </script>
 
 {#if show}
+
+	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
 		class="modal-overlay"
 		aria-labelledby="modal-title"
@@ -135,6 +138,7 @@
 		role="dialog"
 		tabindex="-1"
 	>
+		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 		<div
 			bind:this={modalElement}
 			class="modal-content"

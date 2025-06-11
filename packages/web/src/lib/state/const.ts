@@ -66,10 +66,20 @@ const setCurrentDate = () => {
 
 export const COMPRESS_TYPES = {
 	audio : 'audio',
+
 	image : 'image',
-	pdf   : 'pdf',
-	svg   : 'svg',
-	zip   : 'zip',
+	jpeg  : 'jpeg',
+	jpg   : 'jpg',
+	png   : 'png',
+	webp  : 'webp',
+	gif   : 'gif',
+
+	svg : 'svg',
+
+	pdf : 'pdf',
+
+	zip : 'zip',
+
 	video : 'video',
 }
 export const COMPRESS_TYPE = Object.keys( COMPRESS_TYPES )
