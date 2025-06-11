@@ -61,8 +61,8 @@
 		"@svaio/sitemap": "0.0.6",
 		"@svaio/unocss": "0.0.6",
 		"@sveltejs/adapter-static": "3.0.8",
-		"@sveltejs/kit": "2.21.3",
-		"svelte": "5.33.18",
+		"@sveltejs/kit": "2.21.4",
+		"svelte": "5.33.19",
 		"svelte-check": "4.2.1"
 	},
 	"publishConfig": {

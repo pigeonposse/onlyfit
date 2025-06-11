@@ -57,7 +57,7 @@
   [class*="hint--"]:hover:before, 
   [class*="hint--"]:focus-visible:before,
   [class*="hint--"]:hover:after,
-  [class*="hint--"]:focus-visible:after, {
+  [class*="hint--"]:focus-visible:after {
     -webkit-transition-delay: 100ms;
     -moz-transition-delay: 100ms;
     transition-delay: 100ms; }
