@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+import { ensureDir }                            from '@dovenv/core/utils'
 import media                                    from '@svaio/media'
 import { setDefaultMediaConfig as mediaConfig } from '@svaio/media/utils'
 import pwa                                      from '@svaio/pwa'
@@ -23,6 +24,10 @@ const primary   = 'rgba(19, 163, 74, 1)'
 const secondary = 'rgba(151, 202, 59, 1)'
 const terciary  = 'rgba(151, 202, 59, 0.3)'
 const fourth    = '#f8f9fa'
+
+const buildDir = 'build'
+
+await ensureDir( buildDir )
 
 export default defineConfig( {
 	plugins : [
@@ -70,7 +75,7 @@ export default defineConfig( {
 		} ) ),
 		sitemap( {
 			hostname      : pkg.homepage,
-			outDir        : './build',
+			outDir        : buildDir,
 			dynamicRoutes : ROUTES,
 			robots        : [
 				{
