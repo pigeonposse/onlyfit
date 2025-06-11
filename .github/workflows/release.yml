@@ -11,7 +11,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 env:
     GITHUB_TOKEN: ${{ github.token }}
     DOCS_ID: 'onlyfit'
-    DOCS_DIR: 'packages/web/build'
+    DOCS_DIR: 'packages/web/.svelte-kit/cloudflare'
     BUILD_CMD: 'pnpm build'
 
 ###############################################################################

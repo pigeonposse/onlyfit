@@ -39,7 +39,7 @@
 		"build"
 	],
 	"scripts": {
-		"build": "vite build",
+		"build": "CLOUDFLARE=true vite build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"dev": "vite dev",
@@ -60,6 +60,7 @@
 		"@svaio/pwa": "0.0.6",
 		"@svaio/sitemap": "0.0.6",
 		"@svaio/unocss": "0.0.6",
+		"@sveltejs/adapter-cloudflare": "7.0.4",
 		"@sveltejs/adapter-static": "3.0.8",
 		"@sveltejs/kit": "2.21.4",
 		"svelte": "5.33.19",
