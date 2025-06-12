@@ -1,7 +1,7 @@
 {
 	"name": "@onlyfit/web",
 	"version": "0.0.2",
-	"description": "Compress your files without losing quality",
+	"description": "Compress your files",
 	"keywords": [
 		"pigeonposse",
 		"pp",
@@ -56,11 +56,11 @@
 		"svgo": "3.3.2"
 	},
 	"devDependencies": {
-		"@svaio/media": "0.0.6",
-		"@svaio/meta": "0.0.6",
-		"@svaio/pwa": "0.0.6",
-		"@svaio/sitemap": "0.0.6",
-		"@svaio/unocss": "0.0.6",
+		"@svaio/media": "0.0.7",
+		"@svaio/meta": "0.0.7",
+		"@svaio/pwa": "0.0.7",
+		"@svaio/sitemap": "0.0.7",
+		"@svaio/unocss": "0.0.7",
 		"@sveltejs/adapter-cloudflare": "7.0.4",
 		"@sveltejs/adapter-static": "3.0.8",
 		"@sveltejs/kit": "2.21.4",

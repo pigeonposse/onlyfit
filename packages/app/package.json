@@ -1,0 +1,16 @@
+{
+	"name": "@onlyfit/app",
+	"version": "0.1.0",
+	"private": true,
+	"description": "Compress your files",
+	"type": "module",
+	"scripts": {
+		"build": "pnpm icon && tauri build",
+		"dev": "tauri dev",
+		"icon": "tauri icon ../web/static/favicon.png -o src-tauri/icons",
+		"tauri": "tauri"
+	},
+	"devDependencies": {
+		"@tauri-apps/cli": "2.5.0"
+	}
+}

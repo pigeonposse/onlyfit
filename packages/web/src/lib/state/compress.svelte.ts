@@ -1,9 +1,6 @@
 import { SvelteMap } from 'svelte/reactivity'
 
-import {
-	ALLOWED_TYPES_SET,
-	COMPRESSION_FILE,
-} from './const'
+import { COMPRESSION_FILE } from './const'
 import {
 	SharedState,
 	type SharedStateProps,
@@ -21,11 +18,11 @@ import {
 
 export class CompressionState extends SharedState {
 
-	output : Blob | undefined = $state()
+	output       : Blob | undefined = $state()
 	data
 	#compressed
 	#files
-
+	allowedTypes : Set<string> | undefined = $state()
 	constructor( props: SharedStateProps ) {
 
 		super( props )
@@ -36,6 +33,7 @@ export class CompressionState extends SharedState {
 		this.data = $derived.by( () => {
 
 			const files           = Array.from( this.#files.values() )
+			const allowed         = this.allowedTypes
 			const compressed      = Array.from( this.#compressed.values() )
 			const filesSize       = files.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
 			const compressedSize  = compressed.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
@@ -58,7 +56,7 @@ export class CompressionState extends SharedState {
 						/**
 						 * Whether compression is allowed
 						 */
-						allowed    : ALLOWED_TYPES_SET.has( d.type ),
+						allowed    : allowed?.has( d.type ),
 						compressed : compressed
 							? {
 								file  : compressed,
@@ -169,6 +167,8 @@ export class CompressionState extends SharedState {
 
 		const isCompressed = this.#compressed.has( i.name )
 		if ( isCompressed ) return
+		if ( !this.allowedTypes?.has( i.type ) ) return
+
 		const file = await Optimize.file( i )
 		this.#compressed.set( file.name, file )
 

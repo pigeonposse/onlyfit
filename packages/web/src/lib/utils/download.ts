@@ -7,8 +7,8 @@ const download = ( output: DownloadInput, name: string ) => {
 
 	const url = URL.createObjectURL( output )
 	const a   = document.createElement( 'a' )
-	a.href    = url
 
+	a.href     = url
 	a.download = name
 	document.body.appendChild( a )
 	a.click()

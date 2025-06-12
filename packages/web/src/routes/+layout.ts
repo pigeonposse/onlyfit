@@ -6,8 +6,7 @@ import type { ComponentProps } from 'svelte'
 import { joinURL } from '$utils'
 
 type SeoProps = ComponentProps<typeof Seo>
-// export const ssr = false
-export const prerender = 'auto'
+
 export const load = () => {
 
 	const metaAll: SeoProps['meta']               = {
@@ -49,7 +48,6 @@ export const load = () => {
 				'url'   : PKG.extra.collective.url,
 			},
 			'license' : PKG.extra.licenseURL,
-			// 'codeRepository' : PKG.repository.url,
 		},
 	}
 	return {

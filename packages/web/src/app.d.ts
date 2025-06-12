@@ -13,6 +13,7 @@ declare global {
 	}
 	const PKG: typeof import( '../../../package.json' )
 	const APP_PKG: typeof import( './package.json' )
+	const LOGO_ASCII: string
 }
 
 export {}

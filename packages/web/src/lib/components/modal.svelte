@@ -6,9 +6,10 @@
 	} from 'svelte'
 
 	// Definición de tipos para las propiedades (Props) del componente
-	interface ModalProps {
+	type ModalProps = {
 		show                 : boolean
 		title?               : string
+		showTitle?           : boolean
 		closeOnEscape?       : boolean
 		closeOnOverlayClick? : boolean
 		children?            : Snippet
@@ -24,6 +25,7 @@
 		closable = false,
 		children,
 		footer,
+		showTitle = false,
 	}: ModalProps = $props()
 
 	type ModalEvents = { close: void }
@@ -127,58 +129,55 @@
 	} )
 </script>
 
-{#if show}
-
-	<!-- svelte-ignore a11y_click_events_have_key_events -->
+<!-- svelte-ignore a11y_click_events_have_key_events -->
+<div
+	class={[ 'modal' ]}
+	aria-labelledby={title || 'modal-title'}
+	aria-modal={show}
+	onclick={handleOverlayClick}
+	role="dialog"
+	tabindex="-1"
+>
+	<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 	<div
-		class="modal-overlay"
-		aria-labelledby="modal-title"
-		aria-modal="true"
-		onclick={handleOverlayClick}
-		role="dialog"
-		tabindex="-1"
+		bind:this={modalElement}
+		class="modal-content"
+		onclick={e => e.stopPropagation()}
+		onkeydown={trapFocus}
+		role="document"
 	>
-		<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-		<div
-			bind:this={modalElement}
-			class="modal-content"
-			onclick={e => e.stopPropagation()}
-			onkeydown={trapFocus}
-			role="document"
-		>
-			{#if closable || title}
+		{#if closable || ( title && showTitle )}
 
-				<header class="modal-header">
+			<header class="modal-header">
 
-					{#if title}
-						<h2 id="modal-title">{title}</h2>
-					{:else}
-						<div></div>
-					{/if}
-					{#if closable}
+				{#if title && showTitle}
+					<h2 id="modal-title">{title}</h2>
+				{:else}
+					<div></div>
+				{/if}
+				{#if closable}
 
-						<button
-							class="modal-close-button"
-							aria-label="Cerrar modal"
-							onclick={closeModal}
-							type="button"
-						>
-							&times;
-						</button>
-					{/if}
-				</header>
-			{/if}
-			<div class="modal-body">
-				{@render children?.()}
-			</div>
-			{#if footer}
-				<footer class="modal-footer">
-
-					{@render footer()}
-
-				</footer>
-			{/if}
+					<button
+						class="modal-close-button"
+						aria-label="Cerrar modal"
+						onclick={closeModal}
+						type="button"
+					>
+						&times;
+					</button>
+				{/if}
+			</header>
+		{/if}
+		<div class="modal-body">
+			{@render children?.()}
 		</div>
+		{#if footer}
+			<footer class="modal-footer">
+
+				{@render footer()}
+
+			</footer>
+		{/if}
 	</div>
-{/if}
+</div>
 

@@ -1,14 +1,15 @@
 <script lang="ts">
-
 	import {
 		MetaTags,
 		deepMerge,
 	} from '@svaio/meta/svelte'
+	import { onMount } from 'svelte'
 	import { pwaAssetsHead } from 'virtual:pwa-assets/head'
 	import { pwaInfo } from 'virtual:pwa-info'
 
 	import '../styles'
 	import { COMPRESS_ID } from './const'
+	import { goto } from '$app/navigation'
 	import { page } from '$app/state'
 	import { ICON } from '$lib/icons'
 
@@ -21,6 +22,11 @@
 
 	let { children } = $props()
 
+	onMount( () => {
+
+		console.log( LOGO_ASCII )
+
+	} )
 </script>
 
 <svelte:head>
@@ -40,7 +46,7 @@
 
 <main class="container">
 	<header>
-		{#if page.data.type}
+		{#if page.url.pathname !== '/'}
 			<a href="/">
 				<img
 					class="brand"
@@ -51,7 +57,6 @@
 			<a href="/">
 				<span class="title">{PKG.extra.productName}</span>
 			</a>
-			<span class="subtitle">{page.data.type}</span>
 		{:else}
 			<img
 				class="brand"
@@ -59,6 +64,9 @@
 				src="/favicon.png"
 			>
 			<span class="title">{PKG.extra.productName}</span>
+		{/if}
+		{#if page.data.type}
+			<span class="subtitle">{page.data.type}</span>
 		{/if}
 	</header>
 
@@ -110,15 +118,24 @@
 </section>
 
 {#snippet compressLink( name: string, path: string )}
-	<a
+	<button
 		class={[ 'link !p-2', page.url.pathname === path ? 'active' : '' ]}
-		href={path}
+		onclick={() => {
+
+			goto( path )
+			userState.showExtra = false
+
+		}}
+		type="button"
 	>
 		Compress <b>{name}</b>
-	</a>
+	</button>
 {/snippet}
 
-<Modal bind:show={userState.showExtra}>
+<Modal
+	title="More Tools"
+	bind:show={userState.showExtra}
+>
 	<h3 class="text-center my-4">More Tools</h3>
 	<ul class="stats !flex flex-col p-2">
 		<li>

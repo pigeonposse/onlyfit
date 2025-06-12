@@ -1,5 +1,6 @@
 
-.modal-overlay {
+
+.modal {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.6);
@@ -17,7 +18,7 @@
     padding: 25px;
     border-radius: calc(var(--radius) * 2);
     box-shadow: 0 5px 15px var(--shadow-color);
-    width: 90%;
+    width: 100%;
     max-width: 500px;
     transform: scale(0.9);
     opacity: 0;
@@ -28,12 +29,12 @@
     overflow: hidden;
   }
 
-  .modal-overlay[aria-modal="true"] {
+  .modal[aria-modal="true"] {
     opacity: 1;
     visibility: visible;
   }
 
-  .modal-overlay[aria-modal="true"] .modal-content {
+  .modal[aria-modal="true"] .modal-content {
     transform: scale(1);
     opacity: 1;
   }
