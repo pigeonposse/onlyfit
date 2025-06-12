@@ -1,7 +1,7 @@
 {
 	"name": "onlyfit-monorepo",
 	"private": true,
-	"description": "Compress your files without losing quality",
+	"description": "Compress/optimize your files with different tools",
 	"keywords": [
 		"audio",
 		"compress-files",
@@ -18,7 +18,7 @@
 		"toolkit",
 		"video"
 	],
-	"homepage": "https://onlyf.it",
+	"homepage": "https://onlyfit.pigeonposse.com",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
