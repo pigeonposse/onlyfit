@@ -9,10 +9,8 @@ export const optimizeZip = async (
 	opts?: ZipOptions,
 ): Promise<File> => {
 
-	const fflate = await loader.get( 'fflate' )
-
-	const arrayBuffer = await file.arrayBuffer()
-
+	const fflate       = await loader.get( 'fflate' )
+	const arrayBuffer  = await file.arrayBuffer()
 	const decompressed = await new Promise<Record<string, Uint8Array>>( ( resolve, reject ) => {
 
 		fflate.unzip( new Uint8Array( arrayBuffer ), ( err, data ) => {

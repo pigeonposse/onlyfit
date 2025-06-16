@@ -171,7 +171,7 @@
 <div class="information">
 	<span
 		class="hint--bottom-left hint--rounded hint--large"
-		aria-label="Compress your files without losing quality. Compatible with a wide variety of formats, you can reduce the size of images, videos, audio files, and documents in seconds, directly from your browser."
+		aria-label="Compress your files with different tools. Compatible with a wide variety of formats, you can reduce the size of images, videos, audio files, and documents, directly from your browser."
 	>
 		<span class={ICON.HELP}></span>
 	</span>

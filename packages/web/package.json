@@ -40,7 +40,7 @@
 	],
 	"scripts": {
 		"build": "vite build",
-		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check-once": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"dev": "vite dev",
 		"perf": "pnpx unlighthouse --site http:/localhpost:1312",
@@ -49,6 +49,7 @@
 		"serve": "pnpx serve build"
 	},
 	"dependencies": {
+		"@onlyfit/core": "workspace:*",
 		"browser-image-compression": "2.0.2",
 		"fflate": "0.8.2",
 		"jszip": "3.10.1",
@@ -63,8 +64,8 @@
 		"@svaio/unocss": "0.0.7",
 		"@sveltejs/adapter-cloudflare": "7.0.4",
 		"@sveltejs/adapter-static": "3.0.8",
-		"@sveltejs/kit": "2.21.4",
-		"svelte": "5.33.19",
+		"@sveltejs/kit": "2.21.5",
+		"svelte": "5.34.1",
 		"svelte-check": "4.2.1"
 	},
 	"publishConfig": {

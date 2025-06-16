@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>GIFSKI EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>GIFSKI</h1>
+		<p>View console log</p>
+		<script type="module">
+			import { compress, init } from './src/index'
+
+			await init('./node_modules/gifski-wasm/pkg/gifski_wasm_bg.wasm')
+			const url = await ( await fetch( 'https://media.giphy.com/media/W01rR5tEkZoVkCUGlT/200.gif' ) ).arrayBuffer()
+			const gif = await compress( url, { quality: 20 } )
+			console.log( gif )
+		</script>
+	</body>
+</html>

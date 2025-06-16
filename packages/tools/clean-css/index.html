@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>CLEAN CSS EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>CLEAN CSS</h1>
+		<p>View console log</p>
+		<script type="module">
+			// import { compress } from './src/browser'
+			import { compress } from './dist/browser.mjs'
+
+			import { css }      from './src/code.example.ts'
+
+			const minifiedCss = await compress( css )
+
+			console.log( minifiedCss )
+		</script>
+		<!-- <script type="module" src="./src/browser.example.ts"></script> -->
+	</body>
+</html>

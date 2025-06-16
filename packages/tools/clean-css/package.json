@@ -1,0 +1,70 @@
+{
+	"name": "@onlyfit/clean-css",
+	"version": "0.0.1",
+	"description": "clean-css tool. Powered by WebAssembly",
+	"keywords": [
+		"clean-css",
+		"compress",
+		"css",
+		"optmize",
+		"pigeonposse",
+		"pp",
+		"web"
+	],
+	"homepage": "https://onlyfit.pigeonposse.com",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/onlyfit/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "https",
+		"url": "https://github.com/pigeonposse/onlyfit"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/contribute"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs"
+		},
+		"./browser": {
+			"types": "./dist/browser.d.ts",
+			"import": "./dist/browser.mjs"
+		},
+		"./plugin": {
+			"types": "./dist/plugin.d.ts",
+			"import": "./dist/plugin.mjs"
+		}
+	},
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "pnpm build:browser && pnpm build:lib",
+		"build:browser": "pnpm dlx browserify --standalone CleanCSS node_modules/clean-css/index.js | pnpm dlx uglify-js --compress --mangle -o src/core/browser.js && echo '\n\nexport default globalThis.CleanCSS;' >> src/core/browser.js",
+		"build:lib": "unbuild",
+		"build:pre": "node prebuild.js",
+		"dev": "vite dev"
+	},
+	"devDependencies": {
+		"@onlyfit/core": "workspace:*",
+		"@onlyfit/repo-config": "workspace:*",
+		"@types/clean-css": "4.2.11",
+		"clean-css": "5.3.3"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}

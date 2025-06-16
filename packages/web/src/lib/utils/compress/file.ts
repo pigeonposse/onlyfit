@@ -3,9 +3,17 @@ import {
 	type AudioOptions,
 } from './audio'
 import {
+	optimizeCss,
+	type CSSOptions,
+} from './css'
+import {
 	optimizeGeneric,
 	type GenericOptions,
 } from './generic'
+import {
+	optimizeHtml,
+	type HtmlOptions,
+} from './html'
 import {
 	optimizeGif,
 	optimizeImage,
@@ -38,6 +46,8 @@ export type OptimizeOptions = {
 	video?   : VideoOptions
 	audio?   : AudioOptions
 	generic? : GenericOptions
+	html?    : HtmlOptions
+	css?     : CSSOptions
 }
 
 const imageFormats = new Set( [
@@ -61,6 +71,8 @@ export class OptimizeFile {
 	static zip = optimizeZip
 	static video = optimizeVideo
 	static audio = optimizeAudio
+	static html = optimizeHtml
+	static css = optimizeCss
 
 	static async run( file: File, opts?: OptimizeOptions ): Promise<File> {
 
@@ -83,7 +95,10 @@ export class OptimizeFile {
 			return await OptimizeFile.video( file, opts?.zip )
 		if ( file.type.startsWith( 'audio/' ) )
 			return await OptimizeFile.audio( file, opts?.zip )
-
+		if ( file.type === 'text/html' )
+			return await OptimizeFile.html( file, opts?.html )
+		if ( file.type === 'text/css' )
+			return await OptimizeFile.css( file, opts?.css )
 		return file
 
 	}

@@ -1,0 +1,18 @@
+{
+	"extends": "./node_modules/@onlyfit/repo-config/tsconfig.json",
+	"include": [
+		"src/*"
+		, "src/_old/_shared"
+		, "src/_old/audio",
+		"src/_old/css",
+		"src/_old/docs",
+		"src/_old/font",
+		"src/_old/html",
+		"src/_old/pdf",
+		"src/_old/image"
+		, "src/_old/svg"
+		, "src/_old/video copy",
+		"src/_old/video"
+		, "src/_old/_index.ts"
+	]
+}

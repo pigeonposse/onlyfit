@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>lightningcss EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>lightningcss</h1>
+		<p>View console log</p>
+		<script type="module">
+			import { init, compress } from './src/index'
+			import { css }      from './src/code.example'
+			await init('./node_modules/lightningcss-wasm/lightningcss_node.wasm')
+
+				const uint8       = new TextEncoder().encode( css )
+				const minifiedCss = compress( uint8, {
+					minify   : true,
+					filename : 'index.css',
+				} )
+
+				console.log( new TextDecoder().decode( minifiedCss ) )
+
+		</script>
+		<!-- <script type="module" src="/src/index.example.ts"></script> -->
+	</body>
+</html>

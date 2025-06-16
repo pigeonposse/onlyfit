@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>QOI EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>QOI</h1>
+		<p>View console</p>
+		<main></main>
+		<pre></pre>
+		<script type="module">
+
+			import { compress, initDecode, initEncode, decode } from './src/index'
+
+			await initEncode(null, {
+				locateFile: (path) => `https://cdn.jsdelivr.net/npm/@jsquash/qoi/codec/enc/${path}`
+			})
+			await initDecode(null, {
+				locateFile: (path) => `https://cdn.jsdelivr.net/npm/@jsquash/qoi/codec/dec/${path}`
+			})
+			const image = await fetch('https://getsamplefiles.com/download/qoi/sample-1.qoi').then(r => r.arrayBuffer())
+			const compressedImage = await compress(image, { quality: 20 })
+
+			const res = {
+				inputSize  : image.byteLength,
+				outputSize : compressedImage.byteLength,
+				reduction  : image.byteLength - compressedImage.byteLength,
+				isOptimized: compressedImage.byteLength < image.byteLength
+			}
+
+			const imageDataToPNGBlob = (imageData) => {
+				const canvas = document.createElement('canvas')
+				canvas.width = imageData.width
+				canvas.height = imageData.height
+
+				const ctx = canvas.getContext('2d')
+				if (!ctx) throw new Error('Failed to get 2D context')
+
+				ctx.putImageData(imageData, 0, 0)
+
+				return new Promise((resolve) => {
+					canvas.toBlob((blob) => {
+						if (!blob) throw new Error('Failed to convert canvas to Blob')
+						resolve(blob)
+					}, 'image/png')
+				})
+			}
+			const arrayBufferToHTMLImage = async (buffer) => {
+				const imageData = await decode(buffer)
+				const blob = await imageDataToPNGBlob(imageData)
+				const url = URL.createObjectURL(blob)
+
+				return new Promise((resolve, reject) => {
+					const img = new Image()
+					img.onload = () => {
+						URL.revokeObjectURL(url)
+						resolve(img)
+					}
+					img.onerror = reject
+					img.src = url
+				})
+			}
+
+			const $pre = document.querySelector('pre')
+			const $main = document.querySelector('main')
+
+			const inputImage = await arrayBufferToHTMLImage(image)
+			const outputImage = await arrayBufferToHTMLImage(compressedImage)
+			const inputTitle = document.createElement('h3')
+			const outputTitle = document.createElement('h3')
+
+			inputTitle.textContent = 'Input Image'
+			outputTitle.textContent = 'Output Image'
+
+			$pre.textContent = JSON.stringify(res, null, 2)
+			$main.appendChild(inputTitle)
+			$main.appendChild(inputImage)
+			$main.appendChild(outputTitle)
+			$main.appendChild(outputImage)
+
+		</script>
+	</body>
+</html>

@@ -41,14 +41,15 @@ export const ALLOWED_OTHER_TYPES = [
 ]
 export const ALLOWED_TYPES: Record<typeof COMPRESS_ID[number], string[]> = {
 	audio : [
-		'audio/mpeg',
+		'audio/mpeg', // MP3
 		'audio/wav',
+		'audio/x-wav', // WAV alias
 		'audio/ogg',
-		'audio/mp4',
+		'audio/webm', // WebM alias
 		'audio/aac',
 		'audio/flac',
-		'audio/x-ms-wma',
-		'audio/x-aiff',
+		'audio/x-ms-wma', // WMA (Windows Media Audio)
+		'audio/x-aiff', // AIFF (Audio Interchange File Format)
 	],
 	image : [
 		'image/jpeg',

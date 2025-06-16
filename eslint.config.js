@@ -13,6 +13,7 @@ export default setConfig(
 		yaml      : true,
 		jsdoc     : true,
 		md        : true,
+		html      : true,
 		gitignore : true,
 		ignore    : [
 			'**/docs/**/*.md',

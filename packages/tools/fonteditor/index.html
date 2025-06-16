@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>CONVERT FONT EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>CONVERT FONT</h1>
+		<p>View console log</p>
+		<script type="module">
+
+			import { Convert } from './src/index'
+			const font = await fetch( './build/from-eot.ttf' ).then( r => r.arrayBuffer() )
+			const cv = new Convert( font, 'ttf', {
+				woff2Wasm: './node_modules/fonteditor-core/woff2/woff2.wasm',
+			} )
+
+			const converted = await cv.to('woff2')
+
+			console.log( converted )
+		</script>
+	</body>
+</html>

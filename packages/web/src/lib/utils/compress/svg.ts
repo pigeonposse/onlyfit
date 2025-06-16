@@ -1,10 +1,10 @@
-import type { PluginConfig } from 'svgo'
+import type { Config } from 'svgo'
 
 import { LazyLoader } from '$utils/_super/loader'
 
 export type SvgOptions = {
 	rename?  : boolean
-	plugins? : PluginConfig[]
+	plugins? : Config['plugins']
 }
 
 const loader = new LazyLoader( { svgo: () => import( 'svgo' ) } )

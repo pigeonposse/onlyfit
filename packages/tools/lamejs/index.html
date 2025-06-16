@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>WAV to MP3 Converter with LAME.js</title>
+		<style>
+            body { font-family: sans-serif; margin: 20px; text-align: center; }
+            input[type="file"] { margin-top: 20px; }
+            button { padding: 10px 20px; margin-top: 20px; font-size: 16px; cursor: pointer; }
+            #status { margin-top: 20px; font-weight: bold; color: #333; }
+            #downloadLink {
+                display: none;
+                margin: 20px auto;
+                padding: 10px 20px;
+                background-color: #007bff;
+                color: white;
+                text-decoration: none;
+                border-radius: 5px;
+                max-width: 200px;
+            }
+            #downloadLink:hover { background-color: #0056b3; }
+		</style>
+	</head>
+	<body>
+		<h1>WAV to MP3 Converter</h1>
+		<p>Select a 16-bit PCM WAV file to convert it to MP3.</p>
+
+		<input
+			id="wavFileInput"
+			type="file"
+			accept="audio/wav"
+		>
+		<button id="convertButton" disabled>Convert to MP3</button>
+
+		<div id="status"></div>
+		<a
+			id="downloadLink"
+			download
+			href="#"
+		>Download MP3</a>
+
+		<script type="module">
+            import { wav2mp3 } from './src/wav'
+
+            const wavFileInput = document.getElementById('wavFileInput');
+            const convertButton = document.getElementById('convertButton');
+            const statusDiv = document.getElementById('status');
+            const downloadLink = document.getElementById('downloadLink');
+
+            let selectedFile = null;
+
+            wavFileInput.addEventListener('change', (event) => {
+                selectedFile = event.target.files[0];
+                if (selectedFile && selectedFile.type === 'audio/wav') {
+                    convertButton.disabled = false;
+                    statusDiv.textContent = `File selected: ${selectedFile.name} (${selectedFile.size} bytes)`;
+                    downloadLink.style.display = 'none';
+                } else {
+                    selectedFile = null;
+                    convertButton.disabled = true;
+                    statusDiv.textContent = 'Please select a WAV file.';
+                    downloadLink.style.display = 'none';
+                }
+            });
+
+            convertButton.addEventListener('click', async () => {
+                if (!selectedFile) {
+                    statusDiv.textContent = 'No file selected!';
+                    return;
+                }
+
+                statusDiv.textContent = 'Converting... This may take a moment.';
+                convertButton.disabled = true; // Disable button during conversion
+                downloadLink.style.display = 'none';
+
+                try {
+                    const arrayBuffer = await selectedFile.arrayBuffer();
+                    const mp3ArrayBuffer = await wav2mp3(arrayBuffer, { bitrate: 96 }); // You can change the bitrate
+
+                    const mp3Blob = new Blob([mp3ArrayBuffer], { type: 'audio/mp3' });
+                    const url = URL.createObjectURL(mp3Blob);
+
+                    downloadLink.href = url;
+                    downloadLink.download = selectedFile.name.replace('.wav', '.mp3');
+                    downloadLink.textContent = `Download ${downloadLink.download}`;
+                    downloadLink.style.display = 'block';
+                    statusDiv.textContent = `Conversion complete! Original: ${selectedFile.size} bytes | MP3: ${mp3Blob.size} bytes.`;
+
+                    // Clean up the URL object when no longer needed (e.g., after 1 minute)
+                    setTimeout(() => URL.revokeObjectURL(url), 60 * 1000);
+
+                } catch (error) {
+                    statusDiv.textContent = `Error during conversion: ${error.message}`;
+                    console.error('Conversion error:', error);
+                } finally {
+                    convertButton.disabled = false; // Re-enable button
+                }
+            });
+		</script>
+	</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>Oxipng Web Test</title>
+	</head>
+	<body>
+		<h1>Oxipng Web Test Page</h1>
+		<script type="module">
+		import { optimise } from '@jsquash/oxipng'
+		async function getImageData(imageUrl) {
+
+			const response = await fetch(imageUrl);
+			if (!response.ok)
+				throw new Error(`Failed to fetch image from ${imageUrl}: HTTP status ${response.status} ${response.statusText}`);
+
+			const arrayBuffer = await response.arrayBuffer();
+			const uint8Array = new Uint8Array(arrayBuffer);
+
+			return {
+				arrayBuffer: arrayBuffer,
+				uint8Array: uint8Array,
+				size: arrayBuffer.byteLength,
+			}
+
+		}
+		const run = async () => {
+
+			const image = await getImageData('test/image.png')
+			console.log( image )
+			const optimisedBuffer = await optimise( image.buffer )
+			console.log( optimisedBuffer.byteLength < image.size )
+		}
+		run()
+
+		</script>
+	</body>
+</html>

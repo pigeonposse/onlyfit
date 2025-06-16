@@ -46,12 +46,15 @@
 	],
 	"type": "module",
 	"workspaces": [
-		"packages/*"
+		"packages/*",
+		"packages/config/*",
+		"packages/tools/*"
 	],
 	"scripts": {
 		"+": "pnpm -F",
 		".": "dovenv",
 		"build": "pnpm + web build",
+		"build:tools": "pnpm --parallel -F './packages/tools/*' run build",
 		"lint:commit": "dovenv lint commitlint",
 		"lint:eslint": "dovenv lint eslint",
 		"lint:pkg": "dovenv lint custom -k pkg",
@@ -68,8 +71,10 @@
 		"@changesets/changelog-github": "0.5.1",
 		"@dovenv/core": "1.5.31",
 		"@dovenv/theme-pigeonposse": "1.5.31",
+		"@playwright/test": "1.53.0",
 		"@types/node": "24.0.1",
-		"eslint": "9.28.0",
+		"eslint": "9.29.0",
+		"tslib": "2.8.1",
 		"typescript": "5.8.3",
 		"unbuild": "3.5.0",
 		"vite": "6.3.5"

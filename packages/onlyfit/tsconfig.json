@@ -1,0 +1,7 @@
+{
+	"extends": "./node_modules/@onlyfit/repo-config/tsconfig.json",
+	"include": [
+		"src/*",
+		"onlyfit.config.ts"
+	]
+}

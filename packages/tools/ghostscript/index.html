@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>PDF Compressor (WASM)</title>
+		<style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+        }
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+            appearance: none; /* Remove default select styling */
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%2C197.3L159.2%2C69.5c-4.7-4.7-12.3-4.7-17%2C0L5.4%2C197.3c-4.7%2C4.7-4.7%2C12.3%2C0%2C17l19.8%2C19.8c4.7%2C4.7%2C12.3%2C4.7%2C17%2C0l113-113l113%2C113c4.7%2C4.7%2C12.3%2C4.7%2C17%2C0l19.8-19.8C291.7%2C209.5%2C291.7%2C202%2C287%2C197.3z%22%2F%3E%3C%2Fsvg%3E');
+            background-repeat: no-repeat;
+            background-position: right 10px top 50%;
+            background-size: 12px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        #statusMessage {
+            margin-top: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #333;
+        }
+        #downloadLink {
+            display: none;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: inline-block; /* Changed to inline-block for better alignment */
+            width: auto;
+            text-align: center;
+        }
+        #downloadLink:hover {
+            background-color: #218838;
+        }
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h1>PDF Compressor</h1>
+			<div class="input-group">
+				<label for="pdfFile">Select PDF File:</label>
+				<input
+					id="pdfFile"
+					type="file"
+					accept="application/pdf"
+				>
+			</div>
+			<div class="input-group">
+				<label for="pdfSettings">Compression Quality:</label>
+				<select id="pdfSettings">
+					<option value="/screen">Low (72 DPI)</option>
+					<option selected value="/ebook">Medium (150 DPI)</option>
+					<option value="/printer">High (300 DPI)</option>
+					<option value="/prepress">Maximum (300 DPI)</option>
+					<option value="/smallest">Smallest Size (Variable DPI)</option>
+				</select>
+			</div>
+			<button id="compressBtn">Compress PDF</button>
+			<p id="statusMessage">Awaiting PDF file...</p>
+			<a id="downloadLink" style="display:none;"></a>
+		</div>
+
+		<script type="module" src="/examples/vite.ts"></script>
+	</body>
+</html>

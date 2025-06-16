@@ -1,0 +1,86 @@
+{
+	"name": "onlyfit",
+	"version": "0.0.1",
+	"description": "optimizer tool. Powered by WebAssembly",
+	"keywords": [
+		"audio",
+		"compress",
+		"compressor",
+		"converter",
+		"css",
+		"excel",
+		"font",
+		"gif",
+		"html",
+		"image",
+		"jpeg",
+		"jpg",
+		"optimizer",
+		"optmize",
+		"pdf",
+		"pigeonposse",
+		"pmg",
+		"pp",
+		"quo",
+		"sheets",
+		"svg",
+		"tiff",
+		"video",
+		"web",
+		"xlsx"
+	],
+	"homepage": "https://onlyfit.pigeonposse.com",
+	"bugs": {
+		"url": "https://github.com/pigeonposse/onlyfit/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "https",
+		"url": "https://github.com/pigeonposse/onlyfit"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/contribute"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs"
+		}
+	},
+	"main": "./dist/index.mjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.ts",
+	"bin": {
+		"onlyfit": "./dist/bin.mjs"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "unbuild",
+		"dev": "bun src/bin.ts"
+	},
+	"dependencies": {
+		"@onlyfit/core": "workspace:*",
+		"yargs": "18.0.0"
+	},
+	"devDependencies": {
+		"@onlyfit/clean-css": "workspace:*",
+		"@onlyfit/csso": "workspace:*",
+		"@onlyfit/ffmpeg": "workspace:*",
+		"@onlyfit/repo-config": "workspace:*",
+		"@types/yargs": "17.0.33"
+	},
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	}
+}
