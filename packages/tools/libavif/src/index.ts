@@ -1,13 +1,13 @@
 
-import decode, { init as initDecode } from '@jsquash/avif/decode'
-import encode, { init as initEncode } from '@jsquash/avif/encode'
+import decode from '@jsquash/avif/decode'
+import encode from '@jsquash/avif/encode'
 
 export {
 	decode,
 	encode,
-	initDecode,
-	initEncode,
 }
+export * from './init'
+
 export type CompressOptions = Parameters<typeof encode>[1]
 export const compress = async (
 	input: ArrayBuffer,
@@ -18,11 +18,12 @@ export const compress = async (
 
 	if ( !decodeInput ) throw new Error( 'Failed to decode input' )
 
-	const jxlBytes = await encode( decodeInput, {
+	// @ts-ignore
+	const bytes = await encode( decodeInput, {
 		quality : 60,
-		...opts,
+		...opts || {},
 	} )
 
-	return jxlBytes
+	return bytes
 
 }

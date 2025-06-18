@@ -48,6 +48,7 @@
 		"@jsquash/resize": "2.1.0"
 	},
 	"devDependencies": {
+		"@onlyfit/core": "workspace:*",
 		"@onlyfit/repo-config": "workspace:*"
 	},
 	"publishConfig": {

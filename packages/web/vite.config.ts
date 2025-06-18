@@ -16,7 +16,6 @@ import {
 	transformerDirectives,
 	extractorSvelte,
 	presetIcons,
-	getIconsFromIconifyRemotely,
 } from '@svaio/unocss/utils'
 import { sveltekit }    from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
@@ -66,7 +65,8 @@ export default defineConfig( {
 				presetWind3(),
 				presetIcons( {
 					prefix          : 'i-',
-					collections     : { 'fa6-solid': () => getIconsFromIconifyRemotely( { name: 'fa6-solid' } ) },
+					collections     : { 'fa6-solid': () => import( '@iconify-json/fa6-solid/icons.json' ).then( i => i.default ) },
+					// collections     : { 'fa6-solid': () => getIconsFromIconifyRemotely( { name: 'fa6-solid' } ) },
 					extraProperties : {
 						'display'        : 'inline-block',
 						'vertical-align' : 'middle',

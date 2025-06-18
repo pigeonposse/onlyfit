@@ -2,6 +2,7 @@ import {
 	description,
 	homepage,
 } from '../package.json'
+import { InitInput } from './index'
 
 import type {
 	Plugin,
@@ -9,87 +10,48 @@ import type {
 } from '@onlyfit/core'
 
 const options = {
-	pdfSettings : {
-		type        : 'select',
-		value       : '/ebook',
-		required    : false,
-		label       : 'PDF Settings',
-		description : 'Compression level based on quality/DPI',
-		options     : [
-			{
-				value : '/default',
-				label : 'Default (balanced)',
-			},
-			{
-				value : '/screen',
-				label : 'Screen (72 DPI, lowest quality)',
-			},
-			{
-				value : '/ebook',
-				label : 'eBook (150 DPI, recommended)',
-			},
-			{
-				value : '/printer',
-				label : 'Printer (300 DPI, highest quality)',
-			},
-			{
-				value : '/prepress',
-				label : 'Prepress (300 DPI, highest quality)',
-			},
-			{
-				value : '/smallest',
-				label : 'Smallest size (variable DPI)',
-			},
-		],
+	fps : {
+		value       : 24,
+		type        : 'number',
+		label       : 'Fps',
+		description : 'Frames per second.',
 	},
-	customFlags : {
-		type        : 'array',
-		value       : [],
-		required    : false,
-		label       : 'Custom flags',
-		description : 'Custom flags for ghostscript',
+	quality : {
+		value       : 80,
+		type        : 'range',
+		min         : 0,
+		max         : 100,
+		label       : 'Quality',
+		description : 'Quality (0-100).',
 	},
-} satisfies PluginOptions
+} as const satisfies PluginOptions
 
-const onlyfitPlugin = ( opts?: { wasmPath?: string } ): Plugin<PluginOptions, typeof options> => async utils => {
+const onlyfitPlugin = ( opts?: { wasmInput?: InitInput } ): Plugin<PluginOptions, typeof options> =>
+	async () => {
 
-	const ghostscript = async () => {
+		return {
+			data : {
+				description,
+				homepage,
+			},
+			optimizer : {
+				options,
+				mimetypes : [ 'image/gif' ],
 
-		return !utils.env.isBrowser
-			? await import( '@onlyfit/ghostscript' )
-			: await import( '@onlyfit/ghostscript/browser' )
+				fn : async ( {
+					input, options,
+				} ) => {
+
+					const {
+						compress, init,
+					} = await import( './index' )
+					if ( opts?.wasmInput ) await init( opts.wasmInput )
+
+					return await compress( input, options )
+
+				},
+			},
+		}
 
 	}
-
-	return {
-		data : {
-			description,
-			homepage,
-		},
-		converter : {
-			options,
-			mimetypes : [ ...utils.mime.getAllExtensions( 'pdf' ) || [] ],
-
-			fn : async ( {
-				input, from, to, options,
-			} ) => {
-
-				const {
-					compress, init,
-				} = await ghostscript()
-				if ( opts?.wasmPath ) await init( opts.wasmPath )
-
-				const ext   = utils.mime.getExtension( from )
-				const toExt = utils.mime.getExtension( to )
-				if ( !ext ) throw new Error( 'Unsupported format in input' )
-				if ( !toExt ) throw new Error( 'Unsupported format in output' )
-
-				const cv = await compress( input, options )
-				return cv
-
-			},
-		},
-	}
-
-}
 export default onlyfitPlugin

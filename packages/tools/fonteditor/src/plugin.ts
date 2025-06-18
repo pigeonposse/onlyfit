@@ -18,7 +18,14 @@ const onlyfitPlugin = ( opts?: ConvertOptions ): Plugin<PluginOptions> =>
 		data : {
 			description,
 			homepage,
-			pkg,
+			mentions : [
+				{
+					name        : pkg.name,
+					description : pkg.description,
+					url         : pkg.homepage,
+					package     : pkg,
+				},
+			],
 		},
 		converter : {
 			mimetypes : convertFontFormats.map( f => utils.mime.getType( f ) ).filter( f => typeof f === 'string' ),

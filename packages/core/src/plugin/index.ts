@@ -3,50 +3,62 @@ import {
 	PluginOptionsInfer,
 	PluginOptionsValue,
 } from './options'
-import { MimeType }    from '../utils'
-import { allUtils }    from '../utils'
-import { PackageJSON } from '../utils/types'
+import { MimeType } from '../utils'
+import { allUtils } from '../utils'
+import {
+	PackageJSON,
+	Prettify,
+} from '../utils/types'
 
 export type {
 	PluginOptions,
 	PluginOptionsInfer,
 	PluginOptionsValue,
 }
-
+export type PluginInfo = {
+	/**
+	 * Visible name
+	 */
+	name?        : string
+	/**
+	 * Description
+	 */
+	description? : string
+	/**
+	 * URL of homepage or repository
+	 */
+	url?         : string
+	/**
+	 * Information about the package
+	 */
+	package?     : PackageJSON
+}
 export type PluginData<C extends PluginOptions | undefined = undefined, O extends PluginOptions | undefined = undefined> = {
 
 	/**
-	 * Plugin darta information
+	 * Plugin data information
 	 */
-	data?: {
-		/**
-		 * Plugin visible name
-		 */
-		name?        : string
-		version?     : string
-		description? : string
-		url?         : string
-		pkg?         : PackageJSON
-		// IS NOT NECESSARY cause can be detected by mimetype
-		// type?    : 'audio' | 'css' | 'docs' | 'font' | 'html' | 'image' | 'pdf'  | 'video' | 'other'
-	}
+	data? : PluginInfo & { mentions?: PluginInfo[] }
 
 	/**
 	 * Conversion function
 	 */
 	converter? : {
 		/** Input mimetypes supported */
-		mimetypes : MimeType[]
+		mimetypes : MimeType[] | {
+			from : MimeType[]
+			to   : MimeType[]
+		}[]
 		/**
 		 * Options to be visible in the UI
 		 */
-		options?  : C
+		options? : C
 		fn        : ( data:{
 			input   : ArrayBuffer
 			from    : MimeType
 			to      : MimeType
 			/** Represents user options */
-			options : C extends PluginOptions ? PluginOptionsInfer<C> : undefined
+			options : C extends PluginOptions ? Prettify<PluginOptionsInfer<C>> : undefined
 		} ) => Promise<ArrayBuffer>
 	}
 
@@ -62,7 +74,8 @@ export type PluginData<C extends PluginOptions | undefined = undefined, O extend
 		options?  : O
 		fn        : ( data: {
 			input   : ArrayBuffer/** Represents user options */
-			options : O extends PluginOptions ? PluginOptionsInfer<O> : undefined
+			options : O extends PluginOptions ? Prettify<PluginOptionsInfer<O>> : undefined
+			type    : MimeType
 		} ) => Promise<ArrayBuffer>
 	}
 

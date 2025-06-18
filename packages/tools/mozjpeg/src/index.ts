@@ -1,13 +1,14 @@
 
-import decode, { init as initDecode } from '@jsquash/jpeg/decode'
-import encode, { init as initEncode } from '@jsquash/jpeg/encode'
+import decode from '@jsquash/jpeg/decode'
+import encode from '@jsquash/jpeg/encode'
 
 export {
 	decode,
 	encode,
-	initDecode,
-	initEncode,
 }
+
+export * from './init'
+
 export type CompressOptions = Parameters<typeof encode>[1]
 export const compress = async (
 	input: ArrayBuffer,

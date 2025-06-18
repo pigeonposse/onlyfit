@@ -14,5 +14,6 @@
 		, "src/_old/video copy",
 		"src/_old/video"
 		, "src/_old/_index.ts"
+		, "src/run/index.ts"
 	]
 }

@@ -1,16 +1,14 @@
-import decode, { init as initDecode } from '@jsquash/jxl/decode'
-import encode, { init as initEncode } from '@jsquash/jxl/encode'
+import decode from '@jsquash/jxl/decode'
+import encode from '@jsquash/jxl/encode'
 
 import type { EncodeOptions } from '@jsquash/jxl'
 
 export {
 	decode,
 	encode,
-	initDecode,
-	initEncode,
 }
-
-export type CompressOptions = EncodeOptions
+export * from './init'
+export type CompressOptions = Partial<EncodeOptions>
 
 export const compress = async (
 	input: ArrayBuffer,

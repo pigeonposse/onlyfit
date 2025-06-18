@@ -16,7 +16,7 @@ export const compress = async (
 	const decodeInput = await decode( input )
 
 	if ( !decodeInput ) throw new Error( 'Failed to decode input' )
-
+	// @ts-ignore
 	const jxlBytes = await encode( decodeInput, {
 		quality : 60,
 		...opts,

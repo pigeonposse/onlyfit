@@ -73,9 +73,6 @@
 		"yargs": "18.0.0"
 	},
 	"devDependencies": {
-		"@onlyfit/clean-css": "workspace:*",
-		"@onlyfit/csso": "workspace:*",
-		"@onlyfit/ffmpeg": "workspace:*",
 		"@onlyfit/repo-config": "workspace:*",
 		"@types/yargs": "17.0.33"
 	},

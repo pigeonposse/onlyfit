@@ -1,6 +1,6 @@
 
-import decode, { init as initDecode } from '@jsquash/qoi/decode'
-import encode, { init as initEncode } from '@jsquash/qoi/encode'
+import decode from '@jsquash/qoi/decode'
+import encode from '@jsquash/qoi/encode'
 
 import {
 	optimizeImageData,
@@ -10,9 +10,9 @@ import {
 export {
 	decode,
 	encode,
-	initDecode,
-	initEncode,
 }
+export * from './init'
+
 export type CompressOptions = OptimizeImageOptions
 export const compress = async (
 	input: ArrayBuffer,

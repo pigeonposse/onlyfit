@@ -65,6 +65,7 @@
 		"dev": "vite dev"
 	},
 	"dependencies": {
+		"@dagrejs/graphlib": "2.2.4",
 		"mime": "4.0.7"
 	},
 	"devDependencies": {

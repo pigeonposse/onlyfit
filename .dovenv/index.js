@@ -1,4 +1,5 @@
 import { defineConfig } from '@dovenv/core'
+import { writeFile }    from '@dovenv/core/utils'
 import {
 	pigeonposseMonorepoTheme,
 	getWorkspaceConfig,
@@ -12,28 +13,46 @@ export default defineConfig(
 			corePath : './packages/web',
 		} ),
 		workspace : { custom : {
-			toolDeps : {
+			'tools-pkg' : {
 				desc : 'set required tools dependencies',
 				fn   : async d => {
 
 					const pkgs = ( await d.utils.getPkgsData() )
-						.filter( p => p.includes( 'tools' ) )
+						.filter( p => p.packagePath.includes( 'tools' ) )
+
 					for ( const pkg of pkgs ) {
 
-						if ( !pkg.content.dependencies?.['@onlyfit/core'] )
-							pkg.content.dependencies['@onlyfit/core'] = 'workspace:*'
+						let changed = false
+						if ( !pkg.content.devDependencies ) pkg.content.devDependencies = {}
+						if ( pkg.content.dependencies?.['@onlyfit/core'] ) {
 
-						if ( !pkg.content.files?.['./plugin'] )
-							pkg.content.files['./plugin'] = {
+							pkg.content.dependencies['@onlyfit/core'] = undefined
+							changed                                   = true
+
+						}
+						if ( !pkg.content.devDependencies['@onlyfit/core'] ) {
+
+							pkg.content.devDependencies['@onlyfit/core'] = 'workspace:*'
+							changed                                      = true
+
+						}
+						if ( !pkg.content.exports?.['./plugin'] ) {
+
+							pkg.content.exports['./plugin'] = {
 								types  : './dist/plugin.d.ts',
 								import : './dist/plugin.mjs',
 							}
+							changed                         = true
+
+						}
+						if ( !changed ) continue
+						await writeFile( pkg.packagePath, JSON.stringify( pkg.content, null, '\t' ) )
 
 					}
 
 				},
 			},
-			tools : {
+			'tools' : {
 				desc : 'show tools info',
 				fn   : async d => {
 

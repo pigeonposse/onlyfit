@@ -26,6 +26,7 @@ export default setConfig(
 			'**/packages/create/data/**',
 			'**/packages/web/data/**',
 			'**/packages/config/**/tests/**',
+			'**/packages/config/**/data/**',
 		],
 	},
 	async c => ( [ ...c, ...( await setSvelteConfig( { ts: true } ) ) ] ),

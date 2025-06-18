@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import {
 	description,
 	homepage,
@@ -43,21 +44,26 @@ const options = {
 		],
 	},
 	customFlags : {
-		type        : 'array',
-		value       : [],
+		type        : 'arrayString',
 		required    : false,
 		label       : 'Custom flags',
 		description : 'Custom flags for ghostscript',
 	},
-} satisfies PluginOptions
+} as const satisfies PluginOptions
 
-const onlyfitPlugin = ( opts?: { wasmPath?: string } ): Plugin<PluginOptions, typeof options> => async utils => {
+type InitOptions = {
+	/**
+	 * WASM input (url or path)
+	 */
+	wasmInput : string
+}
+const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof options> => async utils => {
 
 	const ghostscript = async () => {
 
 		return !utils.env.isBrowser
-			? await import( '@onlyfit/ghostscript' )
-			: await import( '@onlyfit/ghostscript/browser' )
+			? await import( './index' )
+			: await import( './browser' )
 
 	}
 
@@ -66,23 +72,23 @@ const onlyfitPlugin = ( opts?: { wasmPath?: string } ): Plugin<PluginOptions, ty
 			description,
 			homepage,
 		},
-		converter : {
+		optimizer : {
 			options,
-			mimetypes : [ ...utils.mime.getAllExtensions( 'pdf' ) || [] ],
+			mimetypes : [ ...utils.mime.getAllTypes( 'pdf' ) || [] ],
 
 			fn : async ( {
-				input, from, to, options,
+				input, options,
 			} ) => {
 
 				const {
 					compress, init,
 				} = await ghostscript()
-				if ( opts?.wasmPath ) await init( opts.wasmPath )
+				if ( opts?.wasmInput ) await init( opts.wasmInput )
 
-				const ext   = utils.mime.getExtension( from )
-				const toExt = utils.mime.getExtension( to )
-				if ( !ext ) throw new Error( 'Unsupported format in input' )
-				if ( !toExt ) throw new Error( 'Unsupported format in output' )
+				// const ext   = utils.mime.getExtension( from )
+				// const toExt = utils.mime.getExtension( to )
+				// if ( !ext ) throw new Error( 'Unsupported format in input' )
+				// if ( !toExt ) throw new Error( 'Unsupported format in output' )
 
 				const cv = await compress( input, options )
 				return cv

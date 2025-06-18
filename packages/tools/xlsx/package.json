@@ -34,6 +34,10 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.mjs"
+		},
+		"./plugin": {
+			"types": "./dist/plugin.d.ts",
+			"import": "./dist/plugin.mjs"
 		}
 	},
 	"main": "./dist/index.mjs",
@@ -49,6 +53,7 @@
 		"xlsx": "0.18.5"
 	},
 	"devDependencies": {
+		"@onlyfit/core": "workspace:*",
 		"@onlyfit/repo-config": "workspace:*"
 	},
 	"publishConfig": {

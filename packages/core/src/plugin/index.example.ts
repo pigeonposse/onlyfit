@@ -77,7 +77,6 @@ const options = {
 		description : 'Enable or disable URL rebasing. Default: true',
 	},
 	rebaseTo : {
-		value       : '',
 		type        : 'string',
 		label       : 'Rebase to directory',
 		description : 'Directory to which all URLs are rebased',

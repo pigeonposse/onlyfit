@@ -1,7 +1,7 @@
 
-import resize, { initResize } from '@jsquash/resize'
+import resize, { initResize as init } from '@jsquash/resize'
 
 export {
 	resize,
-	initResize,
+	init,
 }

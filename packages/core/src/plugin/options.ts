@@ -1,11 +1,15 @@
 import type { Prettify } from '../utils/types'
 
-type BaseField<T> = {
-	value        : T
+type BaseField<T> = Prettify<( {
+	value?    : T
+	required? : false
+} | {
+	value     : T
+	required? : boolean
+} ) & {
 	label        : string
 	description? : string
-	required?    : boolean
-}
+}>
 
 type SelectBaseFile<T> = BaseField<T> & { options : {
 	value : T

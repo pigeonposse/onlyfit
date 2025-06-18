@@ -1,6 +1,6 @@
 import { deps } from './_shared'
 
-import type { Optimizer } from '../../../../../core/dist'
+import type { Optimizer } from '@onlyfit/core'
 
 export type HtmlOptions = Parameters<Optimizer['html']['htmlMinifierTerser']>[0]
 

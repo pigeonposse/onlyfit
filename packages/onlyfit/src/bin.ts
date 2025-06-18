@@ -53,8 +53,10 @@ new Cli( {
 			return input
 
 		}
-		const input = await readFile( path )
-		return input
+		const buffer      = await readFile( path )
+		const arrayBuffer = buffer.buffer.slice( buffer.byteOffset, buffer.byteOffset + buffer.byteLength )
+
+		return arrayBuffer as ArrayBuffer
 
 	},
 	transformOutput : async ( {

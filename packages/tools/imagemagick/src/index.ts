@@ -1,12 +1,25 @@
 import {
-	initializeImageMagick as init,
+	initializeImageMagick,
 	ImageMagick,
 	MagickFormat,
 } from '@imagemagick/magick-wasm'
 
 export * from '@imagemagick/magick-wasm'
 
-export { init }
+export { initializeImageMagick }
+import {
+	createCoreInitializer,
+	type InitCoreOptions,
+} from '../../_shared/wasm'
+
+export type { InitCoreOptions }
+
+export const init = createCoreInitializer( {
+	libraryName : '@imagemagick/magick-wasm',
+	path        : 'dist/magick.wasm',
+	fn          : initializeImageMagick,
+	compile     : false,
+} )
 
 export type OptimizeImageOptions = {
 	width?   : number
@@ -20,11 +33,13 @@ export type OptimizeImageOptions = {
 	 */
 	format?  : MagickFormat
 }
+
 export const convert = async ( input: ArrayBuffer, format : MagickFormat ): Promise<ArrayBuffer> =>
 	await new Promise( ( resolve, reject ) => {
 
+		const buffer = new Uint8Array( input )
 		// @ts-ignore
-		ImageMagick.read( input, image => {
+		ImageMagick.read( buffer, image => {
 
 			// @ts-ignore
 			image.write( format, output => resolve( output ) )
@@ -47,9 +62,11 @@ export const optimize = async (
 
 	return await new Promise( ( resolve, reject ) => {
 
+		console.log( ImageMagick.read )
 		// @ts-ignore
 		ImageMagick.read( input, image => {
 
+			console.log( image )
 			if ( width || height ) image.resize( width ?? 0, height ?? 0 )
 			image.quality = quality
 			// @ts-ignore

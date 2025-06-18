@@ -1,11 +1,13 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import type { JSONSchemaForNPMPackageJsonFiles } from '@schemastore/package'
 
 export type Prettify<T> = {
 	[K in keyof T]: T[K]
 } & {}
 
-export type PackageJSON = Prettify<JSONSchemaForNPMPackageJsonFiles & {
+export type StringType = ( string & {} )
+
+export type PackageJSON = Prettify<Omit<JSONSchemaForNPMPackageJsonFiles, 'type'> & {
 	/**
 	 * The devEngines field aids engineers working on a codebase to all be using the same tooling.
 	 *
@@ -13,8 +15,11 @@ export type PackageJSON = Prettify<JSONSchemaForNPMPackageJsonFiles & {
 	 */
 	devEngines? : {
 		[key in 'cpu' | 'os' | 'libc' | 'runtime' | 'packageManager']? : {
-			name     : string
+			name?    : string
 			version? : string
 			onFail?  : 'warn' | 'error' | 'ignore'
 		}
-	} }>
+	}
+	type? : 'commonjs' | 'module' | StringType
+}>
+

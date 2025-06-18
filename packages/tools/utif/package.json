@@ -36,6 +36,10 @@
 		".": {
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.mjs"
+		},
+		"./plugin": {
+			"types": "./dist/plugin.d.ts",
+			"import": "./dist/plugin.mjs"
 		}
 	},
 	"main": "./dist/index.mjs",
@@ -51,7 +55,8 @@
 		"utif2": "4.1.0"
 	},
 	"devDependencies": {
-		"@onlyfit/repo-config": "workspace:*"
+		"@onlyfit/repo-config": "workspace:*",
+		"@onlyfit/core": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

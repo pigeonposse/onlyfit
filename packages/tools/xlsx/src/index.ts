@@ -39,7 +39,7 @@ export class Compress {
 	#input
 	#type
 
-	constructor( input: ArrayBuffer | Buffer, type: BookType ) {
+	constructor( input: ArrayBuffer | Buffer, type?: BookType ) {
 
 		this.#input = input
 		this.#type  = type

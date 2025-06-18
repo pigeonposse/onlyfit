@@ -12,7 +12,7 @@ export {
 	encode,
 	init,
 }
-
+export type InitInput = NonNullable<Parameters<typeof init>[0]>
 export const compress = async (
 	input: Buffer | ArrayBuffer,
 	options: Options = {},
