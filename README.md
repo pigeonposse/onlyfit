@@ -12,7 +12,16 @@
 [![License](https://img.shields.io/github/license/pigeonposse/onlyfit?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/onlyfit?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/onlyfit)
 
-Compress your files without losing quality
+A lightweight file compression and optimization tool designed to streamline your file management. With Onlyfit, you can easily compress and optimize various file types using different tools.
+
+## Features
+- **Supported File Types**:
+  - 📷 **Images**: JPG, PNG, GIF, BMP, TIFF, WEBP, SVG.
+  - 🎥 **Videos**: MP4, MOV, AVI, MKV, WMV, FLV, WEBM, M4V, 3GP, MPEG.
+  - 🎵 **Audio**: MP3, WAV, OGG, M4A, AAC, FLAC, WMA, AIFF.
+  - 📄 **Documents**: PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, ODT, ODS, ODP, HTML.
+- Drag and drop or browse to upload files.
+- Efficient compression and optimization for various file formats.
 
 ## Table of contents
 
