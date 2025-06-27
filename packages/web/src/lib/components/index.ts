@@ -1,5 +1,9 @@
-export { default as Dropzone } from './dropzone.svelte'
-export { default as Button } from './button.svelte'
-export { default as Modal } from './modal.svelte'
 
+export * from './actions'
+export * from './modal'
+export * from './button'
+export * from './dropzone'
 export * from './toaster'
+export * from './actions'
+export * from './kbd'
+export * from './tabs'

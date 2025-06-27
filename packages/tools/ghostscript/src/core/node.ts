@@ -1,7 +1,9 @@
-// @ts-ignore
-import ghostscript                 from './pkg/gs'
-import { GhostscriptWasmInstance } from './types'
 
-type GhostscriptModuleLoader = () => Promise<GhostscriptWasmInstance>
+import type { GhostscriptWasmInstance } from './types'
 
-export const loadGhostscript: GhostscriptModuleLoader = ghostscript as GhostscriptModuleLoader
+export const loadGhostscript: () => Promise<GhostscriptWasmInstance> = async () => {
+
+	const { default: ghostscript } = await import( '../../data/gs.js' )
+	return await ghostscript() as GhostscriptWasmInstance
+
+}

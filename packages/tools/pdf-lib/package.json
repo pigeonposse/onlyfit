@@ -8,7 +8,7 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://onlyfit.pigeonposse.com",
+	"homepage": "https://onlyf.it",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
@@ -50,8 +50,8 @@
 		"pdf-lib": "1.17.1"
 	},
 	"devDependencies": {
-		"@onlyfit/repo-config": "workspace:*",
-		"@onlyfit/core": "workspace:*"
+		"@onlyfit/core": "workspace:*",
+		"@onlyfit/repo-config": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

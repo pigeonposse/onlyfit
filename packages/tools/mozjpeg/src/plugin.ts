@@ -120,10 +120,20 @@ const options = {
 const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof options> =>
 	async utils => {
 
+		const {
+			init, compress,
+		} = await import( './index' )
 		return {
 			data : {
 				description,
 				url : homepage,
+			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				await init( opts )
+
 			},
 			optimizer : {
 				options,
@@ -132,12 +142,6 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 				fn : async ( {
 					input, options,
 				} ) => {
-
-					const {
-						compress, init,
-					} = await import( './index' )
-
-					if ( opts ) await init( opts )
 
 					return await compress( input, options )
 

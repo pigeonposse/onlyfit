@@ -2,9 +2,8 @@ import {
 	description,
 	homepage,
 } from '../package.json'
-import {
-	init,
-	InitCoreOptions,
+import  {
+	type InitCoreOptions,
 	MagickFormat,
 } from './index'
 
@@ -75,13 +74,7 @@ const options = {
 const onlyfitPlugin = ( opts?: InitCoreOptions ): Plugin<PluginOptions, typeof options> =>
 	async utils => {
 
-		const runInit = async () => {
-
-			if ( !opts ) return
-			await init( opts )
-
-		}
-		const data    = Object.values( MagickFormat )
+		const data = Object.values( MagickFormat )
 			.map( f => {
 
 				const type = utils.mime.getType( f ) // is not neccesary: || utils.mime.getType( f.toLowerCase() )
@@ -99,6 +92,14 @@ const onlyfitPlugin = ( opts?: InitCoreOptions ): Plugin<PluginOptions, typeof o
 				description,
 				homepage,
 			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				await init( opts )
+
+			},
 			optimizer : {
 				options,
 				mimetypes : data.map( f => f.mimetype ),
@@ -107,7 +108,6 @@ const onlyfitPlugin = ( opts?: InitCoreOptions ): Plugin<PluginOptions, typeof o
 					input, options, type,
 				} ) => {
 
-					await runInit()
 					const { optimize } = await import( './index' )
 
 					const format = ( data.find( f => f.mimetype === type )?.value )
@@ -126,7 +126,6 @@ const onlyfitPlugin = ( opts?: InitCoreOptions ): Plugin<PluginOptions, typeof o
 					input, to,
 				} ) => {
 
-					await runInit()
 					const { convert } = await import( './index' )
 
 					const format = ( data.find( f => f.mimetype === to )?.value )

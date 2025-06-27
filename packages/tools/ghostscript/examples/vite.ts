@@ -1,11 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// import { load } from '../dist/browser.mjs'
+
+// import {
+// 	init,
+// 	compress,
+// } from '../src/browser'
+
+// // const WASM_PATH = './dist/gs.wasm'
+
+// PRODUCTION
 import {
 	init,
 	compress,
-} from '../src/browser'
+} from '../dist/browser.mjs'
 
-const WASM_PATH = './dist/gs.wasm'
+const WASM_PATH = 'https://cdn.jsdelivr.net/npm/@jspawn/ghostscript-wasm@0.0.2/gs.wasm'
 
 document.addEventListener( 'DOMContentLoaded', () => {
 

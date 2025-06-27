@@ -84,6 +84,14 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 				description,
 				homepage,
 			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				await init( opts )
+
+			},
 			optimizer : {
 				options,
 				mimetypes : [ utils.mime.getType( 'jxl' ) ].filter( f => typeof f === 'string' ),
@@ -92,11 +100,7 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 					input, options,
 				} ) => {
 
-					const {
-						compress, init,
-					} = await import( './index' )
-
-					if ( opts ) await init( opts )
+					const { compress } = await import( './index' )
 
 					return await compress( input, options )
 

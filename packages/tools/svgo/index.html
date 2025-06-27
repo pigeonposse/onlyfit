@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport">
+		<title>SVGO EXAMPLE</title>
+
+	</head>
+	<body>
+		<h1>SVGO</h1>
+		<p>View console</p>
+		<main></main>
+		<pre></pre>
+		<script type="module">
+
+			import { optimize } from './src/index'
+			function stringToArrayBuffer(str) {
+				const encoder = new TextEncoder(); // usa UTF‑8 por defecto
+				const uint8 = encoder.encode(str);
+				return uint8.buffer; // devuelve el ArrayBuffer
+			}
+			const image = await fetch('https://getsamplefiles.com/download/svg/sample-1.svg').then(r => r.arrayBuffer())
+			const textImage = new TextDecoder( 'utf-8' ).decode( image )
+
+			const compressedImage = (await optimize(textImage, { multipass : true, plugins : [
+				'removeDimensions',
+				'removeViewBox',
+				'removeDoctype',
+				'removeComments',
+				'removeMetadata',
+				'removeTitle',
+				'removeDesc',
+				'removeUselessDefs',
+				'removeEmptyAttrs',
+				'removeXMLNS',
+				'convertStyleToAttrs',
+				'minifyStyles',
+			] })).data
+
+			const bufferCompressed = stringToArrayBuffer(compressedImage)
+			const res = {
+				inputSize  : image.byteLength,
+				outputSize : bufferCompressed.byteLength,
+				reduction  : image.byteLength - bufferCompressed.byteLength,
+				isOptimized: bufferCompressed.byteLength < image.byteLength
+			}
+
+			const $pre = document.querySelector('pre')
+			const $main = document.querySelector('main')
+
+			const inputImage = document.createElement('pre')
+			const outputImage = document.createElement('pre')
+
+			const inputTitle = document.createElement('h3')
+			const outputTitle = document.createElement('h3')
+
+			inputImage.innerHTML = textImage
+			outputImage.innerHTML = compressedImage
+			inputTitle.textContent = 'Input Image'
+			outputTitle.textContent = 'Output Image'
+
+			$pre.textContent = JSON.stringify(res, null, 2)
+			$main.appendChild(inputTitle)
+			$main.appendChild(inputImage)
+			$main.appendChild(outputTitle)
+			$main.appendChild(outputImage)
+
+		</script>
+	</body>
+</html>

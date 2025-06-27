@@ -3,6 +3,9 @@
  */
 export const ICON = {
 	HOME       : 'i-fa6-solid:house',
+	LINK       : 'i-fa6-solid:link',
+	CONFIG     : 'i-fa6-solid:gear',
+	DROPZONE   : 'i-fa6-solid:folder-open',
 	COMPRESS   : 'i-fa6-solid:minimize',
 	DOWNLOAD   : 'i-fa6-solid:download',
 	REMOVE     : 'i-fa6-solid:xmark',

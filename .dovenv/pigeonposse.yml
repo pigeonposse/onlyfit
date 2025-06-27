@@ -5,11 +5,11 @@ web:
   onlyfit:
     name: Onlyfit
     desc: Compress/optimize your files with different tools
-    homepage: https://onlyfit.pigeonposse.com
+    homepage: https://onlyf.it
     library: https://www.npmjs.com/package/onlyfit
     changelog: >-
       https://github.com/pigeonposse/onlyfit/blob/main/packages/core/CHANGELOG.md
-    docs: https://onlyfit.pigeonposse.com
+    docs: https://onlyf.it
     type:
       - library
       - js-library

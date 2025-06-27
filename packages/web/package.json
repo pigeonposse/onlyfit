@@ -7,7 +7,7 @@
 		"pp",
 		"web"
 	],
-	"homepage": "https://onlyfit.pigeonposse.com/guide/web",
+	"homepage": "https://onlyf.it",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
@@ -49,16 +49,16 @@
 		"serve": "pnpx serve build"
 	},
 	"dependencies": {
-		"@onlyfit/core": "workspace:*",
-		"browser-image-compression": "2.0.2",
 		"jszip": "3.10.1",
 		"pdf-lib": "1.17.1"
 	},
 	"devDependencies": {
 		"@iconify-json/fa6-solid": "1.2.3",
+		"@onlyfit/browser-image-compression": "workspace:*",
 		"@onlyfit/clean-css": "workspace:*",
 		"@onlyfit/core": "workspace:*",
 		"@onlyfit/csso": "workspace:*",
+		"@onlyfit/fflate": "workspace:*",
 		"@onlyfit/ffmpeg": "workspace:*",
 		"@onlyfit/fonteditor": "workspace:*",
 		"@onlyfit/ghostscript": "workspace:*",
@@ -79,16 +79,16 @@
 		"@onlyfit/svgo": "workspace:*",
 		"@onlyfit/utif": "workspace:*",
 		"@onlyfit/xlsx": "workspace:*",
-		"@svaio/media": "0.0.7",
-		"@svaio/meta": "0.0.7",
-		"@svaio/pwa": "0.0.7",
-		"@svaio/sitemap": "0.0.7",
-		"@svaio/unocss": "0.0.7",
+		"@svaio/media": "0.0.11",
+		"@svaio/meta": "0.0.11",
+		"@svaio/pwa": "0.0.11",
+		"@svaio/sitemap": "0.0.11",
+		"@svaio/unocss": "0.0.11",
 		"@sveltejs/adapter-cloudflare": "7.0.4",
 		"@sveltejs/adapter-static": "3.0.8",
-		"@sveltejs/kit": "2.21.5",
-		"svelte": "5.34.5",
-		"svelte-check": "4.2.1"
+		"@sveltejs/kit": "2.22.2",
+		"svelte": "5.34.8",
+		"svelte-check": "4.2.2"
 	},
 	"publishConfig": {
 		"access": "public",

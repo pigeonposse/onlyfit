@@ -238,10 +238,9 @@ const onlyfitPlugin = ( ): Plugin<PluginOptions, typeof options> =>
 				} ) => {
 
 					const { minify } = await instance( )
-					// if ( opts?.wasmInput ) await init( opts.wasmInput )
-					const inputStr = utils.convert.arrayBuffer2string( input )
 
-					const res = await minify( inputStr, options )
+					const inputStr = utils.convert.arrayBuffer2string( input )
+					const res      = await minify( inputStr, options )
 
 					return utils.convert.string2arrayBuffer( res )
 

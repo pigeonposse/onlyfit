@@ -2,7 +2,6 @@
  * @see https://austegard.com/pdf-compressor.html
  */
 
-import initGhostscript             from './pkg/gs.mjs'
 import { GhostscriptWasmInstance } from './types'
 
 /**
@@ -13,10 +12,14 @@ import { GhostscriptWasmInstance } from './types'
  * @returns {Promise<GhostscriptWasmInstance>}       - Promise of GhostscriptWasmInstance
  * @example
  * // CDN
- * init('https://cdn.jsdelivr.net/npm/@onlyfit/ghostscript/dist/gs.wasm')
+ * getGhostscript('https://cdn.jsdelivr.net/npm/@onlyfit/ghostscript/dist/gs.wasm')
  * // local
- * init('./my/folder/gs.wasm')
+ * getGhostscript('./my/folder/gs.wasm')
  */
-export const getGhostscript = async ( route: string ): Promise<GhostscriptWasmInstance> =>
-	await initGhostscript( { locateFile: () => route } )
+export const getGhostscript = async ( route: string ): Promise<GhostscriptWasmInstance> => {
+
+	const { default: initGhostscript } = await import( './browser.js' )
+	return await initGhostscript( { locateFile: () => route } )
+
+}
 

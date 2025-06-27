@@ -203,6 +203,7 @@ export class Cli {
 		const {
 			data, optimizer,
 		} = plugin.value
+
 		const key = plugin.key
 
 		if ( argv.help ) {
@@ -230,6 +231,8 @@ export class Cli {
 		const failmsg = () => '- Valid types: ' + data.optimizer?.mimetypes?.join( ', ' ) + '\n- Valid extensions: ' + optimizer?.data?.extensions?.all?.join( ', ' )
 		if ( !type ) throw new Error( 'No input file type exists.\n' + failmsg() )
 
+		await plugin.value.data.init?.()
+
 		const input = await this.options.transformInput( { path: inPath } )
 		const res   = await optimizer?.fn?.( {
 			input,
@@ -243,12 +246,6 @@ export class Cli {
 			input : res,
 		} )
 		console.log( ICON.CHECK + ' Successfully optimized!' )
-
-	}
-
-	async showHelo() {
-
-		this.#instance.showHelp( 'log' )
 
 	}
 
@@ -304,6 +301,7 @@ export class Cli {
 
 			try {
 
+				await opts.plugin.value.data.init?.()
 				const { converter } = opts.plugin.value
 				const key           = opts.plugin.key
 				const failmsg       = ( v?: MimeType[] ) => ICON.DOT + ' Valid types: ' + opts.plugin.value?.data.converter?.mimetypes?.join( ', ' ) + '\n' + ICON.DOT + ' Valid extensions: ' + v?.join( ', ' )
@@ -390,7 +388,7 @@ export class Cli {
 
 	}
 
-	#runInfo( argv: PluginCommandInput, opts:PluginCommandOptions ) {
+	async #runInfo( argv: PluginCommandInput, opts:PluginCommandOptions ) {
 
 		const {
 			plugin, yargs, core,
@@ -401,12 +399,15 @@ export class Cli {
 			optimizer,
 			converter,
 		} = plugin.value
+
 		if ( argv.help ) {
 
 			yargs.showHelp( 'log' )
 			return
 
 		}
+
+		await data.init?.()
 
 		if ( data.converter?.fn && !argv.optimize ) {
 
@@ -549,15 +550,12 @@ export class Cli {
 		this.#instance.command(
 			this.cmds.check + ' <extension>',
 			'Check if extension is supported',
-			async yargs => {
-
-				yargs.options( { to : {
-					type        : 'string',
-					group       : 'Options:',
-					description : 'Check if extension is supported for another extension',
-				} } )
-
-			}, async argv => {
+			async yargs => yargs.options( { to : {
+				type        : 'string',
+				group       : 'Options:',
+				description : 'Check if extension is supported for another extension',
+			} } ),
+			async argv => {
 
 				if ( argv.help ) {
 
@@ -608,7 +606,9 @@ export class Cli {
 
 				}
 
-			} )
+			},
+		)
+
 		this.#instance.command(
 			this.cmds.convert + ' <input> <output>',
 			'Convert file to another format',
@@ -674,6 +674,7 @@ export class Cli {
 
 				if ( !plugin ) throw new Error( `No plugin found for convert "${from}" to "${to}".\nTry to use flag "--combination (-c)" for use combination of plugins.` )
 				console.log( ICON.DOT + ' Conversion using: ' + plugin.key )
+
 				await this.#runConverter( argv, {
 					plugin,
 					core  : core,

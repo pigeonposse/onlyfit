@@ -3,37 +3,92 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta content="width=device-width, initial-scale=1.0" name="viewport">
-		<title>JXL EXAMPLE</title>
-
+		<title>MOZJPEG EXAMPLE</title>
+		<style>
+			#time {
+				padding: 10px 0;
+			}
+			#result {
+				display: flex;
+				flex-direction: row;
+				gap: 10px;
+				padding: 10px 0;
+				div {
+					padding: 10px;
+					border-radius: 20px;
+					border: 1px solid #333;
+					display: flex;
+					flex-direction: column;
+					align-items: flex-start;
+					width: min-content;
+				}
+			}
+			#buttons {
+				display: flex;
+				flex-direction: row;
+				gap: 10px;
+			}
+		</style>
 	</head>
 	<body>
-		<h1>JXL</h1>
-		<p>View console</p>
-		<main></main>
-		<pre></pre>
+		<h1 contenteditable="true">MOZJPEG</h1>
+		<!-- <p>View console</p> -->
+		<label for="quality">Quality</label>
+		<input
+			id="quality"
+			type="number"
+			max="100"
+			min="0"
+			step="10"
+			value="50"
+		>
+		<div id="time"></div>
+		<div id="buttons">
+			<button id="b-old">
+				Run in WINDOW (OLD VERSION)
+				<span></span>
+			</button>
+			<button id="b-window">
+				Run in WINDOW
+				<span></span>
+			</button>
+			<button id="b-window-parallel">
+				Run in WINDOW PARALLEL
+				<span></span>
+			</button>
+			<button id="b-worker">
+				Run in WORKER
+				<span></span>
+			</button>
+			<button id="b-worker-parallel">
+				Run in WORKER PARALLEL
+				<span></span>
+			</button>
+		</div>
+		<div id="result"></div>
+
 		<script type="module">
 
-			import { compress, initDecode, initEncode, decode } from './src/index'
-
-			await initEncode(null, {
-				locateFile: (path) => `https://cdn.jsdelivr.net/npm/@jsquash/jpeg/codec/enc/${path}`
-			})
-			await initDecode(null, {
-				locateFile: (path) => `https://cdn.jsdelivr.net/npm/@jsquash/jpeg/codec/dec/${path}`
-			})
-			const image = await fetch('https://getsamplefiles.com/download/jpg/sample-1.jpg').then(r => r.arrayBuffer())
-
-			const compressOptions = { quality: 20 }
-			const jxl = await compress(image, compressOptions)
-
-			const res = {
-				compressOptions,
-				inputSize  : image.byteLength,
-				outputSize : jxl.byteLength,
-				reduction  : image.byteLength - jxl.byteLength,
-				isOptimized: jxl.byteLength < image.byteLength
+			const $result = document.querySelector('#result')
+			const $button = {
+				old: document.querySelector('#b-old'),
+				window: document.querySelector('#b-window'),
+				windowParallel: document.querySelector('#b-window-parallel'),
+				worker: document.querySelector('#b-worker'),
+				workerParallel: document.querySelector('#b-worker-parallel')
 			}
 
+			/////////////////////////////////////////////////////////////////////
+			// MODES
+			/////////////////////////////////////////////////////////////////////
+			import { workerMode } from './examples/worker-client'
+			import { workerComlinkMode } from './examples/worker-comlink-client'
+			import { windowMode } from './examples/window'
+			import { oldMode } from './examples/window-old'
+
+			/////////////////////////////////////////////////////////////////////
+			// UTILS
+			/////////////////////////////////////////////////////////////////////
 			const imageDataToPNGBlob = (imageData) => {
 				const canvas = document.createElement('canvas')
 				canvas.width = imageData.width
@@ -51,39 +106,173 @@
 					}, 'image/png')
 				})
 			}
-			const arrayBufferToHTMLImage = async (buffer) => {
-				const imageData = await decode(buffer)
-				const blob = await imageDataToPNGBlob(imageData)
-				const url = URL.createObjectURL(blob)
-
+			const arrayBufferToDataURL =(buffer, mimeType = 'image/png') =>{
+				const bytes = new Uint8Array(buffer);
+				let binary = '';
+				for (let i = 0; i < bytes.byteLength; i++) {
+					binary += String.fromCharCode(bytes[i]);
+				}
+				const base64 = btoa(binary);
+				return `data:${mimeType};base64,${base64}`;
+			}
+			const urlToImage = async (url) => {
 				return new Promise((resolve, reject) => {
 					const img = new Image()
-					img.onload = () => {
-						URL.revokeObjectURL(url)
-						resolve(img)
-					}
+					img.onload = () => resolve(img)
 					img.onerror = reject
-					img.width = 400
+					img.width = 300
 					img.src = url
 				})
 			}
+			const arrayBufferToImage = async (buffer) => {
+				const url = arrayBufferToDataURL(buffer)
+				return await urlToImage(url)
+			}
+			/////////////////////////////////////////////////////////////////////
+			// RUN
+			/////////////////////////////////////////////////////////////////////
+			const getPerf = () => ({value: performance.now(), date: new Date().toLocaleTimeString()})
+			let image
+			const run = async ({ compress, title }) => {
 
-			const $pre = document.querySelector('pre')
-			const $main = document.querySelector('main')
+				const perf = getPerf()
 
-			const inputImage = await arrayBufferToHTMLImage(image)
-			const outputImage = await arrayBufferToHTMLImage(jxl)
-			const inputTitle = document.createElement('h3')
-			const outputTitle = document.createElement('h3')
+				console.log(`Start [${title}]: ${perf.date}`)
 
-			inputTitle.textContent = 'Input Image'
-			outputTitle.textContent = 'Output Image'
+				if(!image) image = await fetch('https://getsamplefiles.com/download/jpg/sample-1.jpg').then(r => r.arrayBuffer())
 
-			$pre.textContent = JSON.stringify(res, null, 2)
-			$main.appendChild(inputTitle)
-			$main.appendChild(inputImage)
-			$main.appendChild(outputTitle)
-			$main.appendChild(outputImage)
+				const compressOptions = { quality: Number(document.querySelector('#quality').value) || 50 }
+
+				const arrayBuffer = await compress(image, compressOptions)
+
+				const res = {
+					compressOptions,
+					inputSize  : image.byteLength,
+					outputSize : arrayBuffer.byteLength,
+					reduction  : image.byteLength - arrayBuffer.byteLength,
+					isOptimized: arrayBuffer.byteLength < image.byteLength
+				}
+
+				// const arrayBufferToHTMLImage = async (buffer) => {
+				// 	const imageData = await decode(buffer)
+				// 	const blob = await imageDataToPNGBlob(imageData)
+				// 	const url = URL.createObjectURL(blob)
+
+				// 	return new Promise((resolve, reject) => {
+				// 		const img = new Image()
+				// 		img.onload = () => {
+				// 			URL.revokeObjectURL(url)
+				// 			resolve(img)
+				// 		}
+				// 		img.onerror = reject
+				// 		img.width = 400
+				// 		img.src = url
+				// 	})
+				// }
+
+				const $pre = document.createElement('pre')
+				const $main = document.createElement('main')
+				const $title = document.createElement('h2')
+				const $time = document.createElement('span')
+
+				const exitperf = getPerf()
+				$time.innerHTML = `Performance: ${(exitperf.value - perf.value).toFixed(2)} ms<br>Time: ${perf.date} to ${exitperf.date}`
+				$title.textContent = title
+
+				const inputImage = await arrayBufferToImage(image)
+				const outputImage = await arrayBufferToImage(arrayBuffer)
+				const inputTitle = document.createElement('h3')
+				const outputTitle = document.createElement('h3')
+
+				inputTitle.textContent = 'Input Image'
+				outputTitle.textContent = 'Output Image'
+
+				$pre.textContent = JSON.stringify(res, null, 2)
+				$main.appendChild(inputTitle)
+				$main.appendChild(inputImage)
+				$main.appendChild(outputTitle)
+				$main.appendChild(outputImage)
+				const $content = document.createElement('div')
+
+				$content.appendChild($title)
+				$content.appendChild($time)
+				$content.appendChild($pre)
+				$content.appendChild($main)
+				$result.appendChild($content)
+				console.log(`End [${title}]: ${exitperf.date}`)
+			}
+
+			$button.old.onclick = async (e) => {
+				const $span = e.target.querySelector('span')
+				const res = Number($span.textContent || 0)+1
+				$span.textContent = res
+				const { compress, decode } = await oldMode()
+				await run({ compress, decode, title: `WINDOW (OLD VERSION) RESULT (${res})`})
+			}
+			const { compress, decode } = await windowMode()
+			$button.window.onclick = async (e) => {
+				console.time('✅ window')
+				const $span = e.target.querySelector('span')
+				const res = Number($span.textContent || 0)+1
+				$span.textContent = res
+				await run({ compress, decode, title: `WINDOW RESULT (${res})` })
+				console.timeEnd('✅ window')
+			}
+
+			$button.windowParallel.onclick = async (e) => {
+				console.time('✅ windowParallel')
+				console.log(`Start [windowParallel]: ${getPerf().date}`)
+				const exec = async () => {
+					const $span = e.target.querySelector('span')
+					const res = Number($span.textContent || 0)+1
+					$span.textContent = res
+					await run({ compress, decode, title: `WINDOW PARALLEL RESULT (${res})` })
+				}
+				await Promise.all([
+					exec(),
+					exec(),
+				])
+				console.log(`End [windowParallel]: ${getPerf().date}`)
+				console.timeEnd('✅ windowParallel')
+			}
+			$button.worker.onclick = async (e) => {
+				const $span = e.target.querySelector('span')
+				const res = Number($span.textContent || 0)+1
+				$span.textContent = res
+				const { compress, decode } = await workerMode()
+				await run({ compress, decode, title: `WORKER RESULT (${res})` })
+			}
+			$button.workerParallel.onclick = async (e) => {
+			console.time('✅ workerParallel')
+				const exec = async () => {
+					const $span = e.target.querySelector('span')
+					const res = Number($span.textContent || 0)+1
+					$span.textContent = res
+					const { compress, decode } = await workerMode()
+					await run({ compress, decode, title: `WORKER PARALLEL RESULT (${res})` })
+				}
+				await Promise.all([
+					exec(),
+					exec(),
+				])
+				console.timeEnd('✅ workerParallel')
+			}
+		</script>
+		<script>
+			function printCurrentTime() {
+				const timeElement = document.createElement('div');
+				document.querySelector('#time').appendChild(timeElement);
+
+				function updateTime() {
+					const now = new Date();
+					timeElement.textContent = `Current time: ${now.toLocaleTimeString()}`;
+				}
+
+				updateTime();
+				setInterval(updateTime, 1000);
+			}
+
+			printCurrentTime();
 
 		</script>
 	</body>

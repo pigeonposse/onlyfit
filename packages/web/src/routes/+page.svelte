@@ -2,14 +2,13 @@
 
 	import { JsonLd } from '@svaio/meta/svelte'
 
-	import Compress from './compress.svelte'
-	import { ALLOWED_TYPES_ALL } from './const'
+	import Compress from './compress/compress.svelte'
 
 	import { userState } from '$appstate'
 
 	let { data } = $props()
 
-	userState.compression.allowedTypes = new Set( ALLOWED_TYPES_ALL )
+	userState.compression.allowedTypes = userState.compression.supported.mimetypes
 
 </script>
 

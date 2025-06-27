@@ -15,7 +15,11 @@ const config = {
 			} ),
 		alias : {
 			$utils      : './src/lib/utils',
+			$icons      : './src/lib/icon',
+			$worker     : './src/lib/worker',
+			$core       : './src/lib/core',
 			$components : './src/lib/components',
+			$ui         : './src/lib/ui',
 			$appstate   : './src/lib/state/index.svelte.ts',
 		},
 	},

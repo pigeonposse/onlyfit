@@ -1,0 +1,16 @@
+.tabs {
+	@apply flex flex-col gap-4;
+	&.center {
+		@apply items-center;
+	}
+	.tabs--header {
+		@apply flex flex-row items-start justify-start gap-2 whitespace-nowrap snap-x;
+		/* @apply scrollbar-thin scrollbar-thumb-gray-500 scrollbar-track-transparent; // opcional para mostrar scrollbar estilizada */
+	}
+	.tabs--content {
+		@apply py-4 px-0 rounded-2xl items-center text-wrap break-words !w-full !max-w-full;
+		&.text {
+			@apply prose prose-primary dark:prose-invert max-sm:px-5;
+		}
+	}
+}

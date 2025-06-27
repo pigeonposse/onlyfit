@@ -1,31 +1,32 @@
-import {
-	ALLOWED_TYPES,
-	COMPRESS_ID,
-} from '../../const'
 
 import type { MetaTags }       from '@svaio/meta/svelte'
 import type { ComponentProps } from 'svelte'
 
 import { userState } from '$appstate'
 
-export const entries = () =>
-	COMPRESS_ID.map( type => ( { slug: type } ) )
+const routes = userState.compression.routes.value
+
+export const entries = () => routes.map( ( { slug } ) => ( { slug } ) )
 
 export const load = ( { params } ) => {
 
-	const slug = params.slug as typeof COMPRESS_ID[number]
-	if ( !COMPRESS_ID.includes( slug ) )
+	const slug      = params.slug
+	const routeData = routes.find( route => route.slug === slug )
+
+	if ( !routeData?.slug || routeData?.slug !== slug )
 		throw new Error( 'Page not exists' )
+
+	const text = `Supported extensions: ${routeData.data.extensions.join( ', ' )}. Supported mimetypes: ${routeData.data.mimeTypes.join( ', ' )}.`
 
 	const meta: ComponentProps<typeof MetaTags> = {
 		title       : `${slug.toUpperCase()} Compression | ${PKG.extra.productName}`,
-		description : `Optimize and compress your ${slug} files easily and client-side.`,
+		description : `Optimize and compress your ${slug} files easily and client-side. ${text}`,
 	}
 
-	userState.compression.allowedTypes = new Set( ALLOWED_TYPES[slug] )
+	userState.compression.allowedTypes = new Set( routeData.data.mimeTypes )
 
 	return {
-		type : slug,
+		routeData,
 		meta,
 	}
 

@@ -1,77 +1,91 @@
 import { SvelteMap } from 'svelte/reactivity'
 
-import { COMPRESSION_FILE } from './const'
+import { COMPRESSION_FILE } from './shared/const'
 import {
 	SharedState,
 	type SharedStateProps,
 } from './shared/index.svelte'
+import { createWorkerState } from './shared/worker.svelte'
 
-import type { FileInput } from '$utils'
+import type { FileInput } from '$core/onlyfit'
 
+import { browser }  from '$app/environment'
+import { Optimize } from '$core/onlyfit'
 import {
-	Optimize,
 	getFileIcon,
 	getSizeData,
 	getThumbnailFromFile,
 	per100,
 } from '$utils'
+import { isURL }              from '$utils/string'
+import { init as initWorker } from '$worker'
 
+if ( browser ) await initWorker.init()
 export class CompressionState extends SharedState {
 
 	output       : Blob | undefined = $state()
 	data
 	#compressed
+	#instance
 	#files
 	allowedTypes : Set<string> | undefined = $state()
+	supported
+	routes
+
 	constructor( props: SharedStateProps ) {
 
 		super( props )
+
+		this.#instance = new Optimize()
+		this.supported = this.#instance.supported
+		this.routes    = this.#instance.routes
 
 		this.#files      = new SvelteMap<string, File>()
 		this.#compressed = new SvelteMap<string, File>()
 
 		this.data = $derived.by( () => {
 
-			const files           = Array.from( this.#files.values() )
-			const allowed         = this.allowedTypes
-			const compressed      = Array.from( this.#compressed.values() )
-			const filesSize       = files.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
-			const compressedSize  = compressed.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
-			const compressedTotal = filesSize - compressedSize
-			const total           = `${per100( compressedTotal, filesSize )}%`
+			const files = Array.from( this.#files.values() )
+
+			const compressed     = Array.from( this.#compressed.values() )
+			const filesSize      = files.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
+			const compressedSize = compressed.reduce( ( acc, f ) => acc + f.size, 0 ) || 0
+
 			// console.log( {
 			// 	_files : this.#files,
 			// 	files,
 			// } )
 
 			const res = {
-				files : [ ...files ].map( d => {
+				files : [ ...files ].map( file => {
 
-					const compressed = this.#compressed.get( d.name )
+					const compressed = this.#compressed.get( file.name )
+					console.log( { compressed } )
 					return {
+						init       : this.#init( file.type ),
 						/**
-						 * Icon class like: i-fa6-solid:file
+						 * Icon class like: _i-fa6-solid:file_
 						 */
-						icon       : getFileIcon( d ),
+						icon       : getFileIcon( file ),
 						/**
 						 * Whether compression is allowed
 						 */
-						allowed    : allowed?.has( d.type ),
+						allowed    : this.allowedTypes?.has( file.type ),
 						compressed : compressed
 							? {
 								file  : compressed,
 								size  : getSizeData( compressed.size ),
 								saved : {
-									value : d.size - compressed.size,
-									x100  : `${per100( compressed.size, d.size )}%`,
+									value : file.size - compressed.size,
+									x100  : `${per100( compressed.size, file.size )}%`,
 								},
 							}
 							: undefined,
 						/**
 						 * Original file
 						 */
-						file : d,
-						size : getSizeData( d.size ),
+						file : file,
+						size : getSizeData( file.size ),
 					}
 
 				} ),
@@ -82,9 +96,9 @@ export class CompressionState extends SharedState {
 					},
 					compressed : {
 						count     : this.#compressed.size,
-						size      : getSizeData( compressedSize ),
-						saved     : getSizeData( compressedTotal ),
-						savedX100 : total,
+						saved     : getSizeData( compressedSize ),
+						size      : getSizeData( filesSize - compressedSize ),
+						savedX100 : `${per100( filesSize - compressedSize, filesSize )}%`,
 					},
 				},
 			}
@@ -92,6 +106,56 @@ export class CompressionState extends SharedState {
 			return res
 
 		} )
+
+	}
+
+	// memory cache
+	#initCache = new Map<string, boolean>()
+
+	#init( type: string ) {
+
+		const wkS     = createWorkerState<boolean>()
+		const wkConst = wkS.const
+		const result  = wkS.state
+
+		if ( this.#initCache.get( type ) === true ) {
+
+			result.status = wkConst.FINISHED
+			result.value  = true
+			return result
+
+		}
+
+		const plugin = this.#instance.find( type )
+
+		if ( !plugin ) {
+
+			result.status = wkConst.ERROR
+			result.value  = false
+			return result
+
+		}
+
+		initWorker.sendAndListen( { type: plugin.key }, e => {
+
+			console.log( e )
+			if ( e.data.status === wkConst.FINISHED ) {
+
+				result.status = wkConst.FINISHED
+				result.value  = !!e.data.data
+				if ( result.value ) this.#initCache.set( type, true )
+
+			}
+			else if ( e.data.status === wkConst.ERROR ) {
+
+				result.status = wkConst.ERROR
+				result.value  = false
+
+			}
+
+		} )
+
+		return result
 
 	}
 
@@ -108,6 +172,31 @@ export class CompressionState extends SharedState {
 		this.#compressed.clear()
 		this.loading = false
 		this.output  = undefined
+
+	}
+
+	async addLink( i?: string ) {
+
+		const fileFromUrl = async ( url: string, filename?: string ): Promise<File> => {
+
+			if ( !isURL( url ) ) throw new Error( `Invalid URL "${url}"` )
+			const res = await fetch( url )
+			if ( !res.ok ) throw new Error( `Failed to fetch "${url}", status: ${res.status}` )
+			const blob = await res.blob()
+			const type = blob.type || 'application/octet-stream'
+			const name = filename || url.split( '/' ).pop() || 'file'
+			return new File( [ blob ], name, { type } )
+
+		}
+		const fn = async () => {
+
+			if ( !i ) throw new Error( 'Not file(s) found' )
+			if ( typeof i !== 'string' ) throw new Error( 'Failed to add file from link' )
+
+			this.add( await fileFromUrl( i ) )
+
+		}
+		return await this._run( 'Error adding file(s)', fn() )
 
 	}
 
@@ -169,14 +258,15 @@ export class CompressionState extends SharedState {
 		if ( isCompressed ) return
 		if ( !this.allowedTypes?.has( i.type ) ) return
 
-		const file = await Optimize.file( i )
+		const file = await this.#instance.file( i )
+
 		this.#compressed.set( file.name, file )
 
 	}
 
 	async #zipFile( i: FileInput ) {
 
-		return await Optimize.zip( i, { dotfile : {
+		return await this.#instance.zip( i, { dotfile : {
 			name    : '.' + PKG.extra.id + '.md',
 			content : COMPRESSION_FILE(),
 		} } )

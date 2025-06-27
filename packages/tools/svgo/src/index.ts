@@ -1,12 +1,4 @@
 import { optimize } from 'svgo'
 
-import type {
-	Config,
-	PluginConfig,
-} from 'svgo'
-
-export type {
-	Config,
-	PluginConfig,
-}
+export type * from './types'
 export { optimize }

@@ -11,7 +11,7 @@
 		"wasm",
 		"web"
 	],
-	"homepage": "https://onlyfit.pigeonposse.com",
+	"homepage": "https://onlyf.it",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
@@ -55,8 +55,8 @@
 		"@jsquash/png": "3.1.1"
 	},
 	"devDependencies": {
-		"@onlyfit/repo-config": "workspace:*",
-		"@onlyfit/core": "workspace:*"
+		"@onlyfit/core": "workspace:*",
+		"@onlyfit/repo-config": "workspace:*"
 	},
 	"publishConfig": {
 		"access": "public",

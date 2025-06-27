@@ -4,6 +4,7 @@ import {
 	homepage,
 } from '../package.json'
 
+import type { InitCoreOptions } from './index'
 import type {
 	Plugin,
 	PluginOptions,
@@ -29,13 +30,21 @@ const options = {
 	},
 } as const satisfies PluginOptions
 
-const onlyfitPlugin = ( ): Plugin<PluginOptions, typeof options> =>
+const onlyfitPlugin = ( opts?: InitCoreOptions ): Plugin<PluginOptions, typeof options> =>
 	async utils => {
 
 		return {
 			data : {
 				description,
 				url : homepage,
+			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				init( opts )
+
 			},
 			optimizer : {
 				options,

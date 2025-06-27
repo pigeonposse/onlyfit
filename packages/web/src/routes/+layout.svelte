@@ -8,8 +8,7 @@
 	import { pwaInfo } from 'virtual:pwa-info'
 
 	import '../styles'
-	import { COMPRESS_ID } from './const'
-	import { goto } from '$app/navigation'
+	import Tools from './compress/tools.svelte'
 	import { page } from '$app/state'
 	import { ICON } from '$lib/icons'
 
@@ -19,6 +18,7 @@
 		Modal,
 		NotificationToaster,
 	} from '$components'
+	import { Background } from '$ui'
 
 	let { children } = $props()
 
@@ -27,6 +27,7 @@
 		console.log( LOGO_ASCII )
 
 	} )
+
 </script>
 
 <svelte:head>
@@ -44,67 +45,39 @@
 
 <MetaTags {...deepMerge( page.data.metaAll, page.data.meta )} />
 
-<main class="container">
-	<header>
-		{#if page.url.pathname !== '/'}
-			<a href="/">
-				<img
-					class="brand"
-					alt={PKG.extra.productName}
-					src="/favicon.png"
-				>
-			</a>
-			<a href="/">
-				<span class="title">{PKG.extra.productName}</span>
-			</a>
-		{:else}
+<Background />
+
+<header>
+	{#if page.url.pathname !== '/'}
+		<a href="/">
 			<img
 				class="brand"
 				alt={PKG.extra.productName}
 				src="/favicon.png"
 			>
+		</a>
+		<a href="/">
 			<span class="title">{PKG.extra.productName}</span>
-		{/if}
-		{#if page.data.type}
-			<span class="subtitle">{page.data.type}</span>
-		{/if}
-	</header>
+		</a>
+	{:else}
+		<img
+			class="brand"
+			alt={PKG.extra.productName}
+			src="/favicon.png"
+		>
+		<span class="title">{PKG.extra.productName}</span>
+	{/if}
+
+	{#if page.data.routeData?.key}
+		<span class="subtitle">{page.data.routeData.key}</span>
+	{/if}
+</header>
+
+<main class="container">
 
 	<article>
 		{@render children()}
 	</article>
-
-	<section class={[ 'compression', userState.compression.data.files.length || page.error ? 'active' : '' ]}>
-		<div class="bar"></div>
-		<div class="content">
-			<ul class="formats">
-				<li>
-					<h3>Images</h3>
-					<span>
-						JPG, PNG, GIF, BMP, TIFF, WEBP, SVG
-					</span>
-				</li>
-				<li>
-					<h3>Video</h3>
-					<span>
-						MP4, MOV, AVI, MKV, WMV, FLV, WEBM, M4V, 3GP, MPEG
-					</span>
-				</li>
-				<li>
-					<h3>Audio</h3>
-					<span>
-						MP3, WAV, OGG, M4A, AAC, FLAC, WMA, AIFF
-					</span>
-				</li>
-				<li>
-					<h3>Documents</h3>
-					<span>
-						PDF, DOC, DOCX, XLS, XLSX, PPT, PPTX, ODT, ODS, ODP, HTML
-					</span>
-				</li>
-			</ul>
-		</div>
-	</section>
 
 </main>
 <section class="footer-btns">
@@ -115,38 +88,20 @@
 		onclick={() => userState.showExtra = true}
 		type="button"
 	/>
-</section>
-
-{#snippet compressLink( name: string, path: string )}
-	<button
-		class={[ 'link !p-2', page.url.pathname === path ? 'active' : '' ]}
-		onclick={() => {
-
-			goto( path )
-			userState.showExtra = false
-
-		}}
+	<!-- <Button
+		class="transparent"
+		aria-label="More tools"
+		icon="i-fa6-solid:question"
+		onclick={() => userState.showExtra = true}
 		type="button"
-	>
-		Compress <b>{name}</b>
-	</button>
-{/snippet}
+	/> -->
+</section>
 
 <Modal
 	title="More Tools"
 	bind:show={userState.showExtra}
 >
-	<h3 class="text-center my-4">More Tools</h3>
-	<ul class="stats !flex flex-col p-2">
-		<li>
-			{@render compressLink( 'All', '/' )}
-		</li>
-		{#each COMPRESS_ID as type}
-			<li>
-				{@render compressLink( type, `/compress/${type}` )}
-			</li>
-		{/each}
-	</ul>
+	<Tools />
 </Modal>
 
 <footer class="footer">

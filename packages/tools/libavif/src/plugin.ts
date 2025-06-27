@@ -17,16 +17,20 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions> =>
 				description,
 				url : homepage,
 			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				await init( opts )
+
+			},
 			optimizer : {
 				mimetypes : [ 'image/avif' ],
 
 				fn : async ( { input } ) => {
 
-					const {
-						compress, init,
-					} = await import( './index' )
-
-					if ( opts ) await init( opts )
+					const { compress } = await import( './index' )
 
 					return await compress( input )
 

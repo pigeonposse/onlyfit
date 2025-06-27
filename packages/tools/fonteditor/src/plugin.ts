@@ -1,13 +1,20 @@
-import pkg from 'fonteditor-core/package.json'
+// import {
+// 	description as mDesc,
+// 	homepage as mHome,
+// 	name as mName,
+// } from 'fonteditor-core/package.json'
 
 import { convertFontFormats } from './utils'
 import {
 	description,
 	homepage,
 } from '../package.json'
+import {
+	initWoff2Wasm,
+	type ConvertOptions,
+} from './index'
 
-import type { ConvertOptions } from './index'
-import type { FontFormat }     from './utils'
+import type { FontFormat } from './utils'
 import type {
 	Plugin,
 	PluginOptions,
@@ -18,14 +25,19 @@ const onlyfitPlugin = ( opts?: ConvertOptions ): Plugin<PluginOptions> =>
 		data : {
 			description,
 			homepage,
-			mentions : [
-				{
-					name        : pkg.name,
-					description : pkg.description,
-					url         : pkg.homepage,
-					package     : pkg,
-				},
-			],
+			// mentions : [
+			// 	{
+			// 		name        : mName,
+			// 		description : mDesc,
+			// 		url         : mHome,
+			// 	},
+			// ],
+		},
+		init : async () => {
+
+			if ( !opts?.woff2Wasm ) return
+			await initWoff2Wasm( opts?.woff2Wasm )
+
 		},
 		converter : {
 			mimetypes : convertFontFormats.map( f => utils.mime.getType( f ) ).filter( f => typeof f === 'string' ),
@@ -40,7 +52,7 @@ const onlyfitPlugin = ( opts?: ConvertOptions ): Plugin<PluginOptions> =>
 				if ( !ext ) throw new Error( 'Unsupported format in input' )
 				if ( !toExt ) throw new Error( 'Unsupported format in output' )
 
-				const cv = new Convert( input, ext, opts )
+				const cv = new Convert( input, ext )
 
 				const res = await cv.to( toExt )
 				return res

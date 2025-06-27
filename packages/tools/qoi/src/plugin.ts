@@ -33,6 +33,14 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 				description,
 				url : homepage,
 			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				await init( opts )
+
+			},
 			optimizer : {
 				options,
 				mimetypes : [ 'image/qoi' ],
@@ -41,11 +49,7 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 					input, options,
 				} ) => {
 
-					const {
-						compress, init,
-					} = await import( './index' )
-
-					if ( opts ) await init( opts )
+					const { compress } = await import( './index' )
 
 					return await compress( input, options )
 

@@ -34,6 +34,13 @@ const onlyfitPlugin = ( opts?: { wasmInput?: InitInput } ): Plugin<PluginOptions
 				description,
 				homepage,
 			},
+			init : async () => {
+
+				if ( !opts?.wasmInput ) return
+				const { init } = await import( './index' )
+				await init( opts.wasmInput )
+
+			},
 			optimizer : {
 				options,
 				mimetypes : [ 'image/gif' ],
@@ -42,10 +49,7 @@ const onlyfitPlugin = ( opts?: { wasmInput?: InitInput } ): Plugin<PluginOptions
 					input, options,
 				} ) => {
 
-					const {
-						compress, init,
-					} = await import( './index' )
-					if ( opts?.wasmInput ) await init( opts.wasmInput )
+					const { compress } = await import( './index' )
 
 					return await compress( input, options )
 

@@ -25,6 +25,14 @@ const onlyfitPlugin = ( opts?: Parameters<typeof init>[ 0 ] ): Plugin<PluginOpti
 				description,
 				url : homepage,
 			},
+			init : async () => {
+
+				if ( !opts ) return
+
+				const { init } = await import( './index' )
+				await init( opts )
+
+			},
 			optimizer : {
 				options,
 				mimetypes : [ utils.mime.getType( 'css' ) ].filter( f => typeof f === 'string' ),
@@ -33,11 +41,7 @@ const onlyfitPlugin = ( opts?: Parameters<typeof init>[ 0 ] ): Plugin<PluginOpti
 					input, options,
 				} ) => {
 
-					const {
-						compress, init,
-					} = await import( './index' )
-
-					if ( opts ) await init( opts )
+					const { compress } = await import( './index' )
 
 					const res = await compress( utils.convert.arrayBuffer2uint8Array( input ), options )
 					return utils.convert.uint8Array2arrayBuffer( res )

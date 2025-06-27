@@ -72,6 +72,14 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 			description,
 			homepage,
 		},
+		init : async () => {
+
+			if ( !opts?.wasmInput ) return
+			const { init } = await ghostscript()
+
+			await init( opts.wasmInput )
+
+		},
 		optimizer : {
 			options,
 			mimetypes : [ ...utils.mime.getAllTypes( 'pdf' ) || [] ],
@@ -80,17 +88,18 @@ const onlyfitPlugin = ( opts?: InitOptions ): Plugin<PluginOptions, typeof optio
 				input, options,
 			} ) => {
 
-				const {
-					compress, init,
-				} = await ghostscript()
-				if ( opts?.wasmInput ) await init( opts.wasmInput )
+				const { compress } = await ghostscript()
+				const customFlags  = options?.customFlags?.filter( f => typeof f === 'string' )
 
 				// const ext   = utils.mime.getExtension( from )
 				// const toExt = utils.mime.getExtension( to )
 				// if ( !ext ) throw new Error( 'Unsupported format in input' )
 				// if ( !toExt ) throw new Error( 'Unsupported format in output' )
 
-				const cv = await compress( input, options )
+				const cv = await compress( input, {
+					pdfSettings : options?.pdfSettings,
+					customFlags : customFlags && customFlags.length > 0 ? customFlags : undefined,
+				} )
 				return cv
 
 			},

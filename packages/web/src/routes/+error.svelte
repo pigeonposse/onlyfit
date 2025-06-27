@@ -23,7 +23,6 @@
 	</div>
 
 	<div class="btn-group">
-
 		<Button
 			class="btn small"
 			icon={ICON.HOME}

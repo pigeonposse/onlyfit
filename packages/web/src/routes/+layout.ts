@@ -35,7 +35,6 @@ export const load = () => {
 				'Video Compression',
 				'Support for multiple file formats',
 				'Intuitive user interface',
-				'Offline functionality (PWA)',
 				'Specific routes for file type compression',
 				'Completely Free',
 				'Open Source',

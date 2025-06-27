@@ -45,3 +45,19 @@ export const joinURL = ( ...segments: string[] ) => {
 	return url
 
 }
+
+export const isURL = ( url: string ) => {
+
+	try {
+
+		new URL( url )
+		return true
+
+	}
+	catch {
+
+		return false
+
+	}
+
+}

@@ -9,7 +9,7 @@
 		"pigeonposse",
 		"pp"
 	],
-	"homepage": "https://onlyfit.pigeonposse.com",
+	"homepage": "https://onlyf.it",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
@@ -49,7 +49,9 @@
 		"dist"
 	],
 	"scripts": {
-		"build": "unbuild",
+		"build": "pnpm run build:browser && pnpm run build:files",
+		"build:browser": "pnpm dlx browserify --standalone GhostScript data/gs.js | pnpm dlx uglify-js --compress --mangle -o src/core/browser.js && echo '\n\nexport default globalThis.GhostScript;' >> src/core/browser.js",
+		"build:files": "unbuild",
 		"dev": "vite dev"
 	},
 	"devDependencies": {

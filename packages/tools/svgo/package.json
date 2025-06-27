@@ -11,7 +11,7 @@
 		"svgo",
 		"web"
 	],
-	"homepage": "https://onlyfit.pigeonposse.com",
+	"homepage": "https://onlyf.it",
 	"bugs": {
 		"url": "https://github.com/pigeonposse/onlyfit/issues",
 		"email": "dev@pigeonposse.com"
@@ -36,6 +36,10 @@
 			"types": "./dist/index.d.ts",
 			"import": "./dist/index.mjs"
 		},
+		"./browser": {
+			"types": "./dist/browser.d.ts",
+			"import": "./dist/browser.mjs"
+		},
 		"./plugin": {
 			"types": "./dist/plugin.d.ts",
 			"import": "./dist/plugin.mjs"
@@ -48,10 +52,11 @@
 	],
 	"scripts": {
 		"build": "unbuild",
-		"build:js": "esbuild src/index.ts --bundle --tree-shaking=true --format=esm --target=e2022 --outfile=dist/index.js"
+		"build:js": "esbuild src/index.ts --bundle --tree-shaking=true --format=esm --target=e2022 --outfile=dist/index.js",
+		"dev": "vite dev"
 	},
 	"dependencies": {
-		"svgo": "3.3.2"
+		"svgo": "4.0.0"
 	},
 	"devDependencies": {
 		"@onlyfit/core": "workspace:*",

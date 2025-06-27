@@ -7,7 +7,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-black?style=for-the-badge&logoColor=white&logo=instagram)](https://www.instagram.com/pigeon.posse/)
 [![Medium](https://img.shields.io/badge/Medium-black?style=for-the-badge&logoColor=white&logo=medium)](https://medium.com/@pigeonposse)
 
-[![BANNER](https://github.com/pigeonposse/onlyfit/blob/main/docs/public/banner.png?raw=true)](https://onlyfit.pigeonposse.com/guide/web)
+[![BANNER](https://github.com/pigeonposse/onlyfit/blob/main/docs/public/banner.png?raw=true)](https://onlyf.it/guide/web)
 
 [![License](https://img.shields.io/github/license/pigeonposse/onlyfit?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/onlyfit?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/onlyfit)
@@ -44,7 +44,7 @@ deno add @onlyfit/web
 
 ## ➕ More
 
-- 🌐 [Web](https://onlyfit.pigeonposse.com/guide/web)
+- 🌐 [Web](https://onlyf.it/guide/web)
 
 
 ---

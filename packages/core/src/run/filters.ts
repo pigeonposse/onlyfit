@@ -20,11 +20,54 @@ type CombinationOptions = {
 	 */
 	max?   : number
 }
+type FindRes<K extends string> = {
+	key   : K
+	value : Plugin<K>
+}
 export class CoreFilters<Keys extends string> {
 
 	constructor( public data: Map<Keys, Plugin<Keys>> ) {}
 
-	async getConverterPlugin( opts: {
+	find( opts: {
+		from : MimeType
+		to?  : MimeType
+		type : 'converter' | 'optimizer'
+	} ): FindRes<Keys> | undefined {
+
+		const {
+			from, to, type,
+		} = opts
+
+		for ( const [ key, value ] of this.data.entries() ) {
+
+			if ( type === 'optimizer' ) {
+
+				const mimetypes = value.data.optimizer?.mimetypes || []
+				if ( mimetypes.includes( from ) ) return {
+					key,
+					value,
+				}
+				continue
+
+			}
+			else if ( type === 'converter' ) {
+
+				const combinations = value.converter?.data?.combinations || []
+				if ( combinations.find( c => to ? ( c.from === from && c.to === to ) : c.from === from ) ) return {
+					key,
+					value,
+				}
+				continue
+
+			}
+
+		}
+
+		return undefined
+
+	}
+
+	getConverterPlugin( opts: {
 		from : MimeType
 		to?  : MimeType
 	} ) {
@@ -45,7 +88,7 @@ export class CoreFilters<Keys extends string> {
 
 	}
 
-	async getConverterPlugins( opts: {
+	getConverterPlugins( opts: {
 		from : MimeType
 		to?  : MimeType
 	} ) {
@@ -65,7 +108,7 @@ export class CoreFilters<Keys extends string> {
 
 	}
 
-	async getOptimizerPlugin( opts: { type: MimeType } ) {
+	getOptimizerPlugin( opts: { type: MimeType } ) {
 
 		const { type } = opts
 
@@ -81,7 +124,7 @@ export class CoreFilters<Keys extends string> {
 
 	}
 
-	async getOptimizerPlugins( opts: { type: MimeType } ) {
+	getOptimizerPlugins( opts: { type: MimeType } ) {
 
 		const { type } = opts
 		const res      = new Map<Keys, Plugin<Keys>>()
@@ -95,7 +138,7 @@ export class CoreFilters<Keys extends string> {
 
 	}
 
-	async getConverterCombinations( opts: CombinationOptions ) {
+	getConverterCombinations( opts: CombinationOptions ) {
 
 		const {
 			from, to, max: MAX_PATHS = 100, depth: MAX_DEPTH = 10,
@@ -183,9 +226,9 @@ export class CoreFilters<Keys extends string> {
 
 	}
 
-	async getConverterCombination( opts: Omit<CombinationOptions, 'max'> ) {
+	getConverterCombination( opts: Omit<CombinationOptions, 'max'> ) {
 
-		const data = ( await this.getConverterCombinations( {
+		const data = ( this.getConverterCombinations( {
 			...opts,
 			max : 1,
 		} ) )

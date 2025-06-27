@@ -41,6 +41,11 @@ export type PluginData<C extends PluginOptions | undefined = undefined, O extend
 	data? : PluginInfo & { mentions?: PluginInfo[] }
 
 	/**
+	 *
+	 * Function to initialize the plugin
+	 */
+	init?      : () => Promise<void>
+	/**
 	 * Conversion function
 	 */
 	converter? : {

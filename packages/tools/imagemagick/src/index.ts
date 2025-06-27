@@ -14,6 +14,9 @@ import {
 
 export type { InitCoreOptions }
 
+/**
+ * Runs the ImageMagick WASM library
+ */
 export const init = createCoreInitializer( {
 	libraryName : '@imagemagick/magick-wasm',
 	path        : 'dist/magick.wasm',
@@ -62,11 +65,11 @@ export const optimize = async (
 
 	return await new Promise( ( resolve, reject ) => {
 
-		console.log( ImageMagick.read )
-		// @ts-ignore
-		ImageMagick.read( input, image => {
+		const buffer = new Uint8Array( input )
 
-			console.log( image )
+		// @ts-ignore
+		ImageMagick.read( buffer, image => {
+
 			if ( width || height ) image.resize( width ?? 0, height ?? 0 )
 			image.quality = quality
 			// @ts-ignore

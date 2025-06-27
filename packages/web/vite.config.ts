@@ -20,9 +20,9 @@ import {
 import { sveltekit }    from '@sveltejs/kit/vite'
 import { defineConfig } from 'vite'
 
-import pkgApp     from './package.json'
-import pkg        from '../../package.json'
-import { ROUTES } from './src/routes/const'
+import pkgApp            from './package.json'
+import pkg               from '../../package.json'
+import { getRoutesData } from './src/lib/core/onlyfit/vite'
 
 const primary   = 'rgba(19, 163, 74, 1)'
 const secondary = 'rgba(151, 202, 59, 1)'
@@ -40,9 +40,10 @@ const ascciLogo = async () => {
 	const input = await res.arrayBuffer()
 	const value = await image2ascii( input, { chars: ' -.@' } )
 
-	return `    ${dedent( removeEmptyLines( value ) )}\n\nMade with ❤️ by ${pkg.extra.collective.name}\n\nWeb: ${pkg.extra.collective.url}\nProjects: ${pkg.extra.collective.gh}\nDonate: ${pkg.extra.collective.funding}`
+	return `${dedent( removeEmptyLines( value ) )}\n\nMade with ❤️ by ${pkg.extra.collective.name}\n\nWeb: ${pkg.extra.collective.url}\nProjects: ${pkg.extra.collective.gh}\nDonate: ${pkg.extra.collective.funding}`
 
 }
+
 export default defineConfig( {
 	plugins : [
 		media( {
@@ -92,7 +93,7 @@ export default defineConfig( {
 		sitemap( {
 			hostname      : pkg.homepage,
 			outDir        : buildDir,
-			dynamicRoutes : ROUTES,
+			dynamicRoutes : getRoutesData().map( i => i.route ),
 			robots        : [
 				{
 					userAgent : '*',
@@ -102,6 +103,12 @@ export default defineConfig( {
 			i18n,
 		} ),
 	],
+	server : { proxy : { '/mimetypes' : {
+		target       : 'https://www.iana.org/assignments/media-types/',
+		changeOrigin : true,
+		secure       : false,
+		rewrite      : path => path.replace( /^\/mimetypes/, '' ),
+	} } },
 	define : {
 		PKG        : pkg,
 		APP_PKG    : pkgApp,

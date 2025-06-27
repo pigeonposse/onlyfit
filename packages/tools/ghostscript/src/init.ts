@@ -8,12 +8,13 @@ let _ghostscript: GhostscriptWasmInstance | null = null
  *
  * @param {string} route - The path to the WASM file.
  * @example
- * const path = 'https://cdn.jsdelivr.net/npm/@onlyfit/ghostscript/dist/gs.wasm'
+ * const path = 'https://cdn.jsdelivr.net/npm/@onlyfit/ghostscript/data/gs.wasm'
  * await init( path )
  */
 
 export const init = async ( route: string ) => {
 
+	// console.log( route, _ghostscript )
 	if ( _ghostscript ) return
 	_ghostscript = await getGhostscript( route )
 
